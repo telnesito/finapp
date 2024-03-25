@@ -25,13 +25,19 @@ const CardOnBoarding = () => {
       router.push('/login')
     }
   }
+
   return (
-    <div className='flex flex-col items-center justify-center gap-6'>
+    <div className='flex flex-col min-h-max items-center justify-center gap-10'>
       <Image alt='Imagen de onboard 1' width={252} height={227} src={onBoarding[index].image}>
 
       </Image>
       <h1 className='font-semibold text-center text-azulMarino text-[30px] '>{onBoarding[index].title}</h1>
       <p className='text-center text-Gris'>{onBoarding[0].descripcion}</p>
+      <div className='flex gap-3'>
+        {onBoarding.map((obj, indexBoard) => <span onClick={() => setIndex(indexBoard)} key={indexBoard} className={`cursor-pointer rounded-full w-[12px] h-[12px] ${indexBoard === index ? 'bg-azulMarino' : 'bg-GrisClaro'}`}>
+        </span>)}
+
+      </div>
 
       <div className=' sm:flex-col flex flex-col lg:flex-row'>
         <Button type='contained' onClick={handlePrimary} value={onBoarding[index].primaryText} />
