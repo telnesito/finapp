@@ -8,11 +8,11 @@ export default function Home() {
 
   const router = useRouter()
 
-
-  setTimeout(() => {
-    router.push('onboarding')
-  }, 3000);
-
+  if (typeof window !== 'undefined') {
+    setTimeout(() => {
+      router.push('onboarding');
+    }, 3000);
+  }
 
   return (
     <main className="h-screen min-h-max w-screen min-w-fit bg-azulMarino">
