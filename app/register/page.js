@@ -8,14 +8,14 @@ const Page = () => {
 
   const router = useRouter()
   return (
-    <div className='p-5 gap-[50px] flex flex-col items-center justify-center h-screen'>
+    <div className='p-5 gap-[50px] flex flex-col items-center justify-center h-screen animate-fade-aparecer'>
 
       <p className='font-semibold text-[24px] text-azulMarino'>Bienvenido !</p>
 
       <div className='flex flex-col gap-3 w-full max-w-[700px]'>
-        <TextField label={'Nombre completo'} />
-        <TextField label={'Correo electronico'} />
-        <TextField label={'Contraseña'} />
+        <TextField type='text' label={'Nombre completo'} />
+        <TextField type='email' label={'Correo electronico'} />
+        <TextField type='password' label={'Contraseña'} />
       </div>
       <div className='flex gap-2 items-start w-full max-w-[700px]'>
         <input id='check' name='check' type='checkbox'></input>
