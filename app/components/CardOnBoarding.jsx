@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Button from './Button'
 import { onBoarding } from '../utils/onBoardingText'
 import { useRouter } from 'next/navigation'
+import { Popins } from '../utils/fuentes'
 const CardOnBoarding = () => {
   const [index, setIndex] = useState(0)
   const router = useRouter()
@@ -27,7 +28,7 @@ const CardOnBoarding = () => {
   }
 
   return (
-    <div className='flex flex-col min-h-max items-center justify-center gap-10 animate-fade-aparecer'>
+    <div className={`${Popins.className} flex flex-col min-h-max items-center justify-center gap-10 animate-fade-aparecer`}>
       <Image alt='Imagenes de onboard' width={252} height={227} src={onBoarding[index].image}>
 
       </Image>
