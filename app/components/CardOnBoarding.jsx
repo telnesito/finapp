@@ -2,9 +2,9 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Button from './Button'
-import { onBoarding } from '../utils/onBoardingText.js'
 import { useRouter } from 'next/navigation'
 import { Popins } from '../utils/fuentes'
+import { onBoarding } from '../utils/onBoardingText'
 const CardOnBoarding = () => {
   const [index, setIndex] = useState(0)
   const router = useRouter()
