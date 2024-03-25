@@ -8,7 +8,7 @@ const Page = () => {
 
   const router = useRouter()
   return (
-    <div className='p-5 gap-[50px] flex flex-col items-center justify-center h-screen animate-fade-aparecer'>
+    <div className='p-5 gap-[50px] min-h-[700px] flex flex-col items-center justify-center h-screen animate-fade-aparecer'>
 
       <p className='font-semibold text-[24px] text-azulMarino'>Bienvenido !</p>
 
@@ -25,7 +25,7 @@ const Page = () => {
       </div>
 
       <div className='flex flex-col md:flex-row gap-[15px]'>
-        <Button onClick={() => router.push('/home')} value={'Crear cuenta'} type='contained' />
+        <Button onClick={() => router.push('/accountcreated')} value={'Crear cuenta'} type='contained' />
         <Button onClick={() => router.push('/')} value={'Ir al tutorial'} type='outlined' />
       </div>
 
