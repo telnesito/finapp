@@ -4,6 +4,7 @@ import { fugazOne } from "./utils/fuentes";
 import Image from 'next/image'
 
 
+
 export default function Home() {
 
   const router = useRouter()

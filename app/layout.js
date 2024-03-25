@@ -1,7 +1,5 @@
-import { Inter } from "next/font/google";
+import { Popins } from "./utils/fuentes";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Finapp",
@@ -11,8 +9,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es" >
-      {/* <link rel="icon" href="/logoIcon.svg" sizes="any" /> */}
-      <body className={inter.className}>{children}</body>
+      <link rel="icon" href="/logoIcon.svg" sizes="any" />
+      <body className={Popins.className}>{children}</body>
     </html>
   );
 }
