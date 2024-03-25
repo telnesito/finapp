@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Button from './Button'
-import { onBoarding } from '../utils/onBoardingText'
+import { onBoarding } from '../utils/onBoardingText.js'
 import { useRouter } from 'next/navigation'
 import { Popins } from '../utils/fuentes'
 const CardOnBoarding = () => {
