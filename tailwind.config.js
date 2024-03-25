@@ -26,7 +26,7 @@ module.exports = {
       },
 
       keyframes: {
-        aparecer: {
+        bigSmall: {
           '0%': {
             transform: 'scale(.8)'
           },
@@ -35,10 +35,25 @@ module.exports = {
           '100%': {
             transform: 'scale(1)'
           },
+        },
+
+        aparecer: {
+          '0%': {
+            opacity: '50%'
+          },
+
+
+          '100%': {
+            opacity: '100%'
+          },
         }
+
+
       },
       animation: {
-        'logo-aparecer': 'aparecer 2s infinite alternate',
+        'logo-aparecer': 'bigSmall 2s infinite alternate',
+        'fade-aparecer': 'aparecer 1s',
+
       },
     },
   },

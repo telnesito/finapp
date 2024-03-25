@@ -27,12 +27,12 @@ const CardOnBoarding = () => {
   }
 
   return (
-    <div className='flex flex-col min-h-max items-center justify-center gap-10'>
-      <Image alt='Imagen de onboard 1' width={252} height={227} src={onBoarding[index].image}>
+    <div className='flex flex-col min-h-max items-center justify-center gap-10 animate-fade-aparecer'>
+      <Image alt='Imagenes de onboard' width={252} height={227} src={onBoarding[index].image}>
 
       </Image>
       <h1 className='font-semibold text-center text-azulMarino text-[30px] '>{onBoarding[index].title}</h1>
-      <p className='text-center text-Gris'>{onBoarding[0].descripcion}</p>
+      <p className='text-center text-Gris'>{onBoarding[index].descripcion}</p>
       <div className='flex gap-3'>
         {onBoarding.map((obj, indexBoard) => <span onClick={() => setIndex(indexBoard)} key={indexBoard} className={`cursor-pointer rounded-full w-[12px] h-[12px] ${indexBoard === index ? 'bg-azulMarino' : 'bg-GrisClaro'}`}>
         </span>)}
