@@ -50,4 +50,4 @@ export const NAVBAR = [
   },
 ]
 
-export const TRANS_OPCIONES = ['Ingresos', 'Pagos', 'Transferencias']
+export const TRANS_OPCIONES = ['Ingresos', 'Pagos', 'Transf']
