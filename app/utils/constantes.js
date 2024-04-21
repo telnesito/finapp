@@ -1,3 +1,8 @@
+import { AiFillHome } from "react-icons/ai";
+import { AiOutlineCreditCard } from "react-icons/ai";
+import { AiTwotoneCarryOut } from "react-icons/ai";
+import { AiOutlineUser } from "react-icons/ai";
+
 export const onBoarding =
   [
     {
@@ -25,3 +30,23 @@ export const onBoarding =
     },
 
   ]
+
+export const NAVBAR = [
+  {
+    page: 'Home',
+    icon: AiFillHome
+  },
+  {
+    page: 'Deudas',
+    icon: AiOutlineCreditCard
+  },
+  {
+    page: 'Objetivos',
+    icon: AiTwotoneCarryOut
+  },
+  {
+    page: 'Perfil',
+    icon: AiOutlineUser
+  },
+
+]

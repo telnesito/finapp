@@ -10,7 +10,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" >
       <link rel="icon" href="/logoIcon.svg" sizes="any" />
-      <body className={Popins.className}>{children}</body>
+      <body className={Popins.className}>{children}
+      </body>
     </html>
   );
 }
