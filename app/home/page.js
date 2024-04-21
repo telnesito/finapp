@@ -2,12 +2,16 @@
 import React from 'react'
 import Image from 'next/image'
 import Transacciones from '../components/Transacciones'
+import Modal from '../components/Modal'
+import useModal from '../customHooks/useModa'
 const Page = () => {
+  const { isOpen, openModal, closeModal, isClosing } = useModal()
+
   return (
     <div className='bg-[#F9FAFC] h-screen'>
-
+      <Modal closeModal={closeModal} isClosing={isClosing} isOpen={isOpen} />
       <div className={` bg-azulMarino w-full h-[260px]`}>
-        <Image className='absolute' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>
+        <Image className='absolute w-full' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>
         <div className="flex flex-col gap-[40px] pl-[30px] pt-[40px]">
           <p className='text-white font-medium text-[18px]'>Alexander Michael</p>
 
@@ -16,9 +20,9 @@ const Page = () => {
               <p className='text-white text-[14px]'>Balance disponible</p>
               <p className='text-white text-[36px] '>$8.420,00</p>
             </div>
-            <div className='flex items-center justify-center rounded-md bg-[#ffffff30] w-[45px] h-[45px]'>
-              <Image width={16} height={16} alt='uparrow' src={'/plusicon.svg'}></Image>
-            </div>
+            <button type='button' onClick={openModal} className='z-10 flex items-center justify-center rounded-md active:bg-[#ffffff40] bg-[#ffffff30] w-[45px] h-[45px]'>
+              <Image width={16} height={16} alt='abrir modal de opciones' src={'/plusicon.svg'}></Image>
+            </button>
           </div>
         </div>
 
@@ -41,7 +45,7 @@ const Page = () => {
         <Transacciones />
       </div>
       {/* Objetivos */}
-      <div className='pl-[20px] pr-[20px] min-h-[550px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+      <div className='pl-[20px] pr-[20px] min-h-[600px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
         <div className='flex justify-between'>
           <p className='text-azulMarino font-medium'>Lista de deseos</p>
           <p className='text-azulMarino font-semibold'>Ver todas</p>

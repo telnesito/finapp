@@ -46,13 +46,35 @@ module.exports = {
           '100%': {
             opacity: '100%'
           },
+        },
+
+        bottomTop: {
+          '0%': {
+            bottom: '-750px'
+          },
+
+
+          '100%': {
+            bottom: '0px'
+          },
+        },
+
+        topBottom: {
+          '0%': {
+            bottom: '0px'
+          },
+
+
+          '100%': {
+            bottom: '-750px'
+          },
         }
-
-
       },
       animation: {
         'logo-aparecer': 'bigSmall 2s infinite alternate',
         'fade-aparecer': 'aparecer 1s',
+        'bottom-top': 'bottomTop 1s ',
+        'top-bottom': 'topBottom .5s'
 
       },
     },
