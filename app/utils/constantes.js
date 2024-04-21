@@ -48,5 +48,6 @@ export const NAVBAR = [
     page: 'Perfil',
     icon: AiOutlineUser
   },
-
 ]
+
+export const TRANS_OPCIONES = ['Ingresos', 'Pagos', 'Transferencias']

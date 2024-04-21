@@ -1,15 +1,24 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Transacciones from '../components/Transacciones'
 import Modal from '../components/Modal'
 import useModal from '../customHooks/useModa'
+import ButtonTabs from '../components/ButtonTabs'
+import Tabs from '../components/Tabs'
+import { TRANS_OPCIONES } from '../utils/constantes'
 const Page = () => {
   const { isOpen, openModal, closeModal, isClosing } = useModal()
-
+  const [optionModal, setOptionModal] = useState(0)
   return (
     <div className='bg-[#F9FAFC] h-screen'>
-      <Modal closeModal={closeModal} isClosing={isClosing} isOpen={isOpen} />
+      <Modal closeModal={closeModal} isClosing={isClosing} isOpen={isOpen}>
+        <Tabs>
+          {TRANS_OPCIONES.map((value, index) => <ButtonTabs indexTab={optionModal}
+            onClick={() => setOptionModal(index)} isActive={index === optionModal} key={index} text={value} />)}
+        </Tabs>
+
+      </Modal>
       <div className={` bg-azulMarino w-full h-[260px]`}>
         <Image className='absolute w-full' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>
         <div className="flex flex-col gap-[40px] pl-[30px] pt-[40px]">

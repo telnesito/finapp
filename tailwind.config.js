@@ -73,7 +73,7 @@ module.exports = {
       animation: {
         'logo-aparecer': 'bigSmall 2s infinite alternate',
         'fade-aparecer': 'aparecer 1s',
-        'bottom-top': 'bottomTop 1s ',
+        'bottom-top': 'bottomTop .75s ',
         'top-bottom': 'topBottom .5s'
 
       },

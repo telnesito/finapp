@@ -14,7 +14,6 @@ const Page = () => {
       <Button onClick={() => router.push('/home')} value={'Continuar'} type='contained' />
 
       <p className='text-center text-azulMarino font-light text-[12px]'>Al clickear continuar estará aceptando nuestros <br />
-
         <span className='cursor-pointer underline font-medium'>
           Terminos y Condiciones
         </span>

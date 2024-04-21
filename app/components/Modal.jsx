@@ -10,7 +10,6 @@ const Modal = ({ closeModal, isOpen, isClosing, children }) => {
           <div className=" absolute inset-0 bg-gray-900 bg-opacity-75" onClick={closeModal}></div>
           <div className={` ${!isClosing ? 'animate-bottom-top' : 'animate-top-bottom'}  h-[750px] absolute bg-white rounded-lg overflow-hidden shadow-xl transform transition-all w-full`}>
             <div className="p-6">
-
               {children}
             </div>
 
