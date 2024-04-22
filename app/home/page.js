@@ -15,7 +15,7 @@ const Page = () => {
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
   return (
-    <div className={`bg-[#F9FAFC] ${isOpen && 'overflow-hidden'} h-screen`}>
+    <div className={`bg-[#F9FAFC] ${isOpen ? 'overflow-hidden' : ''} h-screen`}>
       <Modal closeModal={closeModal} isClosing={isClosing} isOpen={isOpen}>
         <button onClick={closeModal} className='flex items-center gap-2 mb-3'>
           <AiOutlineArrowLeft />
