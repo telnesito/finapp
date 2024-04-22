@@ -2,7 +2,10 @@ import { AiFillHome } from "react-icons/ai";
 import { AiOutlineCreditCard } from "react-icons/ai";
 import { AiTwotoneCarryOut } from "react-icons/ai";
 import { AiOutlineUser } from "react-icons/ai";
-
+import { AiOutlineHome } from "react-icons/ai";
+import { AiFillCreditCard } from "react-icons/ai";
+import { AiFillCarryOut } from "react-icons/ai";
+import { FaUser } from "react-icons/fa";
 export const onBoarding =
   [
     {
@@ -34,19 +37,24 @@ export const onBoarding =
 export const NAVBAR = [
   {
     page: 'Home',
-    icon: AiFillHome
+    icon: AiOutlineHome,
+    activeIcon: AiFillHome
   },
   {
     page: 'Deudas',
-    icon: AiOutlineCreditCard
+    icon: AiOutlineCreditCard,
+    activeIcon: AiFillCreditCard
+
   },
   {
     page: 'Objetivos',
-    icon: AiTwotoneCarryOut
+    icon: AiTwotoneCarryOut,
+    activeIcon: AiFillCarryOut
   },
   {
     page: 'Perfil',
-    icon: AiOutlineUser
+    icon: AiOutlineUser,
+    activeIcon: FaUser
   },
 ]
 
