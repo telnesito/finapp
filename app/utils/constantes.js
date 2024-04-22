@@ -5,7 +5,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineHome } from "react-icons/ai";
 import { AiFillCreditCard } from "react-icons/ai";
 import { AiFillCarryOut } from "react-icons/ai";
-import { FaUser } from "react-icons/fa";
+import { TiUser } from "react-icons/ti";
 export const onBoarding =
   [
     {
@@ -54,7 +54,7 @@ export const NAVBAR = [
   {
     page: 'Perfil',
     icon: AiOutlineUser,
-    activeIcon: FaUser
+    activeIcon: TiUser
   },
 ]
 
