@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 
 import EmailIcon from '@mui/icons-material/Email';
 import CardProfile from '../components/CardProfile';
+import Button from '../components/Button';
 const Page = () => {
   const router = useRouter()
   return (
@@ -43,8 +44,10 @@ const Page = () => {
         <div className='flex flex-col mt-[20px]'>
           <CardProfile Icon={AccountBalanceIcon} onClick={() => router.push('vault')} text={'Vault de usuarios y contraseña '} />
         </div>
+      </div>
 
-
+      <div className='flex items-center justify-center mt-[20px]'>
+        <Button type='contained' onClick={() => router.push('/login')} value={'Cerrar sesion'} />
       </div>
 
 
