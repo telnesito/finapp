@@ -47,7 +47,7 @@ const Page = () => {
       </div>
 
       <div className='flex items-center justify-center mt-[20px]'>
-        <Button type='contained' onClick={() => router.push('/login')} value={'Cerrar sesion'} />
+        <Button type='text' onClick={() => router.push('/login')} value={'Cerrar sesion'} />
       </div>
 
 
