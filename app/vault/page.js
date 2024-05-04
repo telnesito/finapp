@@ -19,6 +19,7 @@ import useModal from '../customHooks/useModa';
 import Modal from '../components/Modal';
 import TextField from '../components/TextField';
 import Button from '../components/Button';
+import BackPage from '../components/BackPage';
 const Page = () => {
 
   const { isOpen, openModal, isClosing, closeModal } = useModal()
@@ -26,10 +27,8 @@ const Page = () => {
   const router = useRouter()
   return (
     <Box p={'20px 20px'}>
-      <Box display={'flex'} component={'button'} onClick={() => router.push('perfil')} flexDirection={'row'} marginBottom={'20px'} alignItems={'center'} gap={'10px'} >
-        <KeyboardArrowLeftIcon />
-        <p className='text-azulMarino text-[18px] font-medium '>Gestion de contraseñas</p>
-      </Box>
+      <BackPage destino={'perfil'} paginaActual={'Gestion cuentas'} />
+
       <TableContainer component={Paper}>
         <Table sx={{
 

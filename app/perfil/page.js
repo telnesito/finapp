@@ -31,11 +31,11 @@ const Page = () => {
         <p className='text-azulMarino text-[18px] font-medium mb-'>Configuraciones</p>
         <div className='flex mt-[20px] gap-4 flex-col'>
 
-          <CardProfile Icon={PersonIcon} text={'Cambiar informacion personal'} />
+          <CardProfile Icon={PersonIcon} onClick={() => router.push('perfil/informacion_personal')} text={'Cambiar informacion personal'} />
 
-          <CardProfile Icon={LockIcon} text={'Cambiar contraseña'} />
+          <CardProfile Icon={LockIcon} onClick={() => router.push('perfil/password')} text={'Cambiar contraseña'} />
 
-          <CardProfile Icon={EmailIcon} text={'Cambiar correo electronico'} />
+          <CardProfile Icon={EmailIcon} onClick={() => router.push('perfil/correo_electronico')} text={'Cambiar correo electronico'} />
 
         </div>
         <p className='text-azulMarino mt-[20px] text-[18px] font-medium'>Mas configuraciones</p>
