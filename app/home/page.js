@@ -12,6 +12,7 @@ import Pagos from '../components/Pagos'
 import Transferencias from '../components/Transferencias'
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useRouter } from 'next/navigation'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CardInOut from '../components/CardInOut'
 const Page = () => {
   const { isOpen, openModal, closeModal, isClosing } = useModal()
@@ -55,9 +56,9 @@ const Page = () => {
         </div>
         <div className='pl-[30px]  flex gap-[10px] items-center'>
           <div className='flex items-center justify-center rounded bg-[#ffffff20] w-[30px] h-[30px]'>
-            <Image width={10} height={10} alt='uparrow' src={'/upArrow.svg'}></Image>
+            <ArrowDownwardIcon className='text-white' fontSize='small' />
           </div>
-          <p className='text-white text-[14px] '>Aumento de 4% desde el mes pasado</p>
+          <p className='text-white text-[14px] '>Te estas quedando limpio compadre</p>
         </div>
       </div>
 
