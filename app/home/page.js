@@ -11,9 +11,11 @@ import Ingresos from '../components/Ingresos'
 import Pagos from '../components/Pagos'
 import Transferencias from '../components/Transferencias'
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useRouter } from 'next/navigation'
 const Page = () => {
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
+  const router = useRouter()
   return (
     <div className={`bg-[#F9FAFC] ${isOpen ? 'overflow-hidden' : ''} h-screen`}>
       <Modal closeModal={closeModal} isClosing={isClosing} isOpen={isOpen}>
@@ -62,7 +64,7 @@ const Page = () => {
       <div className='p-5 min-h-[490px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
         <div className='flex justify-between'>
           <p className='text-azulMarino font-medium'>Transacciones recientes</p>
-          <p className='text-azulMarino font-semibold'>Ver todas</p>
+          <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold'>Ver todas</button>
         </div>
         <Transacciones />
       </div>

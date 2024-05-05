@@ -8,7 +8,6 @@ const Transacciones = () => {
       <CardInOut />
       <CardInOut />
       <CardInOut />
-
       <CardInOut />
 
     </div>
