@@ -12,6 +12,7 @@ import Pagos from '../components/Pagos'
 import Transferencias from '../components/Transferencias'
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useRouter } from 'next/navigation'
+import CardInOut from '../components/CardInOut'
 const Page = () => {
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
@@ -42,7 +43,7 @@ const Page = () => {
           <div className='mr-[30px] flex items-center justify-between'>
             <div>
               <p className='text-white text-[14px]'>Balance disponible</p>
-              <p className='text-white text-[36px] '>$8.420,00</p>
+              <p className='text-white text-[36px] '>$120,00</p>
             </div>
             <button type='button' onClick={openModal} className='z-10 flex items-center justify-center rounded-md active:bg-[#ffffff40] bg-[#ffffff30] w-[45px] h-[45px]'>
               <Image width={16} height={16} alt='abrir modal de opciones' src={'/plusicon.svg'}></Image>
@@ -66,7 +67,12 @@ const Page = () => {
           <p className='text-azulMarino font-medium'>Transacciones recientes</p>
           <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold'>Ver todas</button>
         </div>
-        <Transacciones />
+        <Transacciones>
+          <CardInOut></CardInOut>
+          <CardInOut></CardInOut>
+          <CardInOut></CardInOut>
+          <CardInOut></CardInOut>
+        </Transacciones>
       </div>
       {/* Objetivos */}
       <div className='pl-[20px] pr-[20px] min-h-[600px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
@@ -74,7 +80,12 @@ const Page = () => {
           <p className='text-azulMarino font-medium'>Lista de deseos</p>
           <p className='text-azulMarino font-semibold'>Ver todas</p>
         </div>
-        <Transacciones />
+        <Transacciones>
+          <CardInOut></CardInOut>
+          <CardInOut></CardInOut>
+          <CardInOut></CardInOut>
+
+        </Transacciones>
       </div>
 
 
