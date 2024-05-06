@@ -5,6 +5,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineHome } from "react-icons/ai";
 import { AiFillCreditCard } from "react-icons/ai";
 import { AiFillCarryOut } from "react-icons/ai";
+import { AiOutlineMessage } from "react-icons/ai";
 import { TiUser } from "react-icons/ti";
 export const onBoarding =
   [
@@ -49,6 +50,11 @@ export const NAVBAR = [
   {
     page: 'Objetivos',
     icon: AiTwotoneCarryOut,
+    activeIcon: AiFillCarryOut
+  },
+  {
+    page: 'Chatbot',
+    icon: AiOutlineMessage,
     activeIcon: AiFillCarryOut
   },
   {
