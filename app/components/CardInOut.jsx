@@ -41,7 +41,7 @@ const CardInOut = () => {
 
           <Box display={'flex'} component={'button'} onClick={() => closeModal()} flexDirection={'row'} marginBottom={'20px'} alignItems={'center'} gap={'10px'} >
             <KeyboardArrowLeftIcon />
-            <p className='text-azulMarino text-[18px] font-medium '>Detalle para transaccion de <b>pago</b></p>
+            <p className='text-azulMarino text-[16px] font-medium '>Detalle de <b>pago</b></p>
           </Box>
           <form>
             <TextField label={'Fecha'} defaultValue={'2019-09-18'} type='date' />
