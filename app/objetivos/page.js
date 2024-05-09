@@ -15,16 +15,6 @@ import Button from '../components/Button'
 
 
 const Page = () => {
-  setTimeout(() => {
-
-    let celdaTabla = document.getElementsByClassName('TableCell')
-    console.log(celdaTabla[0])
-  }, 250);
-  var arr = [1, 2, 3, 4];
-  for (var i = 0; i < arr.length; i++) {
-    console.log(arr[i]);
-  }
-
   const { isOpen, openModal, isClosing, closeModal } = useModal()
   const [optionModal, setOptionModal] = useState(0)
   return (

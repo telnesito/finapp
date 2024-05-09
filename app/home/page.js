@@ -14,6 +14,8 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useRouter } from 'next/navigation'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CardInOut from '../components/CardInOut'
+import CardObjetive from '../components/CardObjetive'
+import CardDebts from '../components/CardDebts'
 const Page = () => {
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
@@ -63,7 +65,7 @@ const Page = () => {
       </div>
 
       {/* Transacciones recientes */}
-      <div className='p-5 min-h-[490px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+      <div className='p-5 min-h-[460px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
         <div className='flex justify-between'>
           <p className='text-azulMarino font-medium'>Transacciones recientes</p>
           <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold'>Ver todas</button>
@@ -76,19 +78,33 @@ const Page = () => {
         </Transacciones>
       </div>
       {/* Objetivos */}
-      <div className='pl-[20px] pr-[20px] min-h-[600px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+      <div className='pl-[20px] pr-[20px] min-h-[270px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
         <div className='flex justify-between'>
-          <p className='text-azulMarino font-medium'>Lista de deseos</p>
-          <p className='text-azulMarino font-semibold'>Ver todas</p>
+          <p className='text-azulMarino font-medium'>Lista de objetivos</p>
+          <button onClick={() => router.push('objetivos')} className='text-azulMarino font-semibold'>Ver todas</button>
+
         </div>
         <Transacciones>
-          <CardInOut></CardInOut>
-          <CardInOut></CardInOut>
-          <CardInOut></CardInOut>
+          <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={200} date={"11 Oct 2021"} />
+          <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
 
         </Transacciones>
+
       </div>
 
+      <div className='pl-[20px] pr-[20px] min-h-[400px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+        <div className='flex justify-between'>
+          <p className='text-azulMarino font-medium'>Lista de deudas</p>
+          <button onClick={() => router.push('deudas')} className='text-azulMarino font-semibold'>Ver todas</button>
+
+        </div>
+        <Transacciones>
+          <CardDebts description={'Subscripcion mensual'} title={'Spotify Sub.'} total={'-7.00'} date={'11 Oct 2021'} />
+          <CardDebts description={'Mensualidad Cantv'} completada={true} title={'Internet.'} total={'50.00'} date={'25 Mayo 2024'} />
+
+        </Transacciones>
+
+      </div>
 
     </div>
   )
