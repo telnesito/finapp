@@ -15,6 +15,16 @@ import Button from '../components/Button'
 
 
 const Page = () => {
+  setTimeout(() => {
+
+    let celdaTabla = document.getElementsByClassName('TableCell')
+    console.log(celdaTabla[0])
+  }, 250);
+  var arr = [1, 2, 3, 4];
+  for (var i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+
   const { isOpen, openModal, isClosing, closeModal } = useModal()
   const [optionModal, setOptionModal] = useState(0)
   return (
@@ -33,16 +43,16 @@ const Page = () => {
         </Tabs>
         <div className='mt-4'>
           {optionModal === 0 ? <Transacciones>
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={200} date={"11 Oct 2021"}/>
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
+            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={200} date={"11 Oct 2021"} />
+            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
 
           </Transacciones>
             : optionModal === 1 ? <Transacciones>
-              <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
+              <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
 
             </Transacciones>
               : <Transacciones>
-        <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
+                <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
               </Transacciones>}
         </div>
 
@@ -87,5 +97,5 @@ const Page = () => {
     </div>
   )
 }
- 
+
 export default Page
