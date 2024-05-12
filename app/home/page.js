@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Transacciones from '../components/Transacciones'
 import Modal from '../components/Modal'
@@ -16,10 +16,17 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CardInOut from '../components/CardInOut'
 import CardObjetive from '../components/CardObjetive'
 import CardDebts from '../components/CardDebts'
+import { obtenerUsuario } from '../firebase/auth/currentSesion'
 const Page = () => {
+
+
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
+  const [userData,] = useState(obtenerUsuario())
   const router = useRouter()
+
+  if (!userData) router.push('/login')
+
   return (
     <div className={`bg-[#F9FAFC] ${isOpen ? 'overflow-hidden' : ''} h-screen`}>
       <Modal closeModal={closeModal} isClosing={isClosing} isOpen={isOpen}>
@@ -41,7 +48,10 @@ const Page = () => {
       <div className={` bg-azulMarino w-full h-[260px]`}>
         <Image className='absolute w-full' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>
         <div className="flex flex-col gap-[40px] pl-[30px] pt-[40px]">
-          <p className='text-white font-medium text-[18px]'>Alexander Michael</p>
+          {userData &&
+            <p className='text-white font-medium text-[18px]'>{userData.displayName}</p>
+
+          }
 
           <div className='mr-[30px] flex items-center justify-between'>
             <div>
