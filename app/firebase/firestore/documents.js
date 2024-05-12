@@ -10,6 +10,9 @@ export const addToFireStore = async (user) => {
       uid: user.uid,
       username: user.displayName,
       email: user.email,
+      balance_general: 0,
+      cedula: 0,
+      edad: 0,
     });
   return res
 }
