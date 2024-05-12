@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import EmailIcon from '@mui/icons-material/Email';
 import CardProfile from '../components/CardProfile';
 import Button from '../components/Button';
+import { cerrarSesion } from '../firebase/auth/logOut';
 const Page = () => {
   const router = useRouter()
   return (
@@ -47,7 +48,13 @@ const Page = () => {
       </div>
 
       <div className='flex items-center justify-center mt-[20px]'>
-        <Button type='text' onClick={() => router.push('/login')} value={'Cerrar sesion'} />
+        <Button type='text' onClick={async () => {
+          const res = await cerrarSesion()
+          console.log(res)
+          router.push('/login')
+        }
+
+        } value={'Cerrar sesion'} />
       </div>
 
 
