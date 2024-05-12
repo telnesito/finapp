@@ -27,6 +27,7 @@ const Page = () => {
     e.preventDefault()
     setIsLoading(true)
     const res = await registrarUsuario(newUser.email, newUser.password, newUser.username)
+    console.log(res)
     setIsLoading(false)
     if (res.uid) router.push('accountcreated')
     else {

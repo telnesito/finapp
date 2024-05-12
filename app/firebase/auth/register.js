@@ -1,6 +1,7 @@
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "..";
+import { addToFireStore } from "../firestore/documents";
 
 export const registrarUsuario = async (email, password, username) => {
 
@@ -11,24 +12,12 @@ export const registrarUsuario = async (email, password, username) => {
       displayName: username
     })
 
+    addToFireStore(userCredential.user)
+
     return userCredential.user
   } catch (error) {
     return error
   }
 }
-
-
-
-// import { getAuth, updateProfile } from "firebase/auth";
-// const auth = getAuth();
-// updateProfile(auth.currentUser, {
-//   displayName: "Jane Q. User", photoURL: "https://example.com/jane-q-user/profile.jpg"
-// }).then(() => {
-//   // Profile updated!
-//   // ...
-// }).catch((error) => {
-//   // An error occurred
-//   // ...
-// });
 
 
