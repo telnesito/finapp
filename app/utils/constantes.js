@@ -55,7 +55,7 @@ export const NAVBAR = [
   {
     page: 'Chatbot',
     icon: AiOutlineMessage,
-    activeIcon: AiFillCarryOut
+    activeIcon: AiOutlineMessage
   },
   {
     page: 'Perfil',
