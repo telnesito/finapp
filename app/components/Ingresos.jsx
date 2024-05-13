@@ -1,10 +1,29 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import TextField from './TextField'
 import Button from './Button'
+import { agregarIngreso } from '../firebase/firestore/AddIngreso'
 
 const Ingresos = () => {
+
+  const [newIngreso, setNewIngreso] = useState({
+    fecha: '2024-05-20',
+    importe: '200',
+    titulo: 'Venta de playStation',
+    categoria: 'Otros',
+    cuenta: 'Cuentas',
+    descripcion: 'Venta de playStation 4 usado'
+  })
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const res = await agregarIngreso(newIngreso)
+    console.log(res)
+  }
+
   return (
-    <form className='animate-fade-aparecer mt-[15px] flex flex-col gap-2 '>
+    <form onSubmit={(e) => handleSubmit(e)} className='animate-fade-aparecer mt-[15px] flex flex-col gap-2 '>
       <TextField label={'Fecha'} type='date' />
       <TextField label={'Importe'} type='number' />
       <TextField label={'Titulo'} type='text' />

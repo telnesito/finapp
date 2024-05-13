@@ -17,15 +17,29 @@ import CardInOut from '../components/CardInOut'
 import CardObjetive from '../components/CardObjetive'
 import CardDebts from '../components/CardDebts'
 import { obtenerUsuario } from '../firebase/auth/currentSesion'
+import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
+import SkeletonLoad from '../components/Skeleton'
 const Page = () => {
 
 
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
-  const [userData,] = useState(obtenerUsuario())
+  const [userData, setUserData] = useState(obtenerUsuario())
+  const [userProfile, setUserProfile] = useState({})
   const router = useRouter()
 
   if (!userData) router.push('/login')
+
+  useEffect(() => {
+    const profile = async () => {
+      const userFromFireStore = await getUserProfile(userData?.uid)
+      setUserProfile(userFromFireStore)
+    }
+    profile()
+
+  }, [userData])
+
+
 
   return (
     <div className={`bg-[#F9FAFC] ${isOpen ? 'overflow-hidden' : ''} h-screen`}>
@@ -45,76 +59,84 @@ const Page = () => {
           : optionModal === 1 ? <Pagos />
             : <Transferencias />}
       </Modal>
-      <div className={` bg-azulMarino w-full h-[260px]`}>
-        <Image className='absolute w-full' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>
-        <div className="flex flex-col gap-[40px] pl-[30px] pt-[40px]">
-          {userData &&
-            <p className='text-white font-medium text-[18px]'>{userData.displayName}</p>
+      {userProfile.username ? <>
 
-          }
+        <div className={` bg-azulMarino w-full h-[260px]`}>
+          <Image className='absolute w-full' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>
+          <div className="flex flex-col gap-[40px] pl-[30px] pt-[40px]">
+            {userData &&
+              <p className='text-white font-medium text-[18px]'>{userProfile.username}</p>
 
-          <div className='mr-[30px] flex items-center justify-between'>
-            <div>
-              <p className='text-white text-[14px]'>Balance disponible</p>
-              <p className='text-white text-[36px] '>$120,00</p>
+            }
+
+            <div className='mr-[30px] flex items-center justify-between'>
+              <div>
+                <p className='text-white text-[14px]'>Balance disponible</p>
+                <p className='text-white text-[36px] '>${userProfile.balance_general}</p>
+              </div>
+              <button type='button' onClick={openModal} className='z-10 flex items-center justify-center rounded-md active:bg-[#ffffff40] bg-[#ffffff30] w-[45px] h-[45px]'>
+                <Image width={16} height={16} alt='abrir modal de opciones' src={'/plusicon.svg'}></Image>
+              </button>
             </div>
-            <button type='button' onClick={openModal} className='z-10 flex items-center justify-center rounded-md active:bg-[#ffffff40] bg-[#ffffff30] w-[45px] h-[45px]'>
-              <Image width={16} height={16} alt='abrir modal de opciones' src={'/plusicon.svg'}></Image>
-            </button>
+          </div>
+
+          <div className='mr-[30px] m-[15px] ml-[30px]  h-[1px] bg-[#ffffff15]'>
+          </div>
+          <div className='pl-[30px]  flex gap-[10px] items-center'>
+            <div className='flex items-center justify-center rounded bg-[#ffffff20] w-[30px] h-[30px]'>
+              <ArrowDownwardIcon className='text-white' fontSize='small' />
+            </div>
+            <p className='text-white text-[14px] '>Te estas quedando limpio compadre</p>
           </div>
         </div>
 
-        <div className='mr-[30px] m-[15px] ml-[30px]  h-[1px] bg-[#ffffff15]'>
-        </div>
-        <div className='pl-[30px]  flex gap-[10px] items-center'>
-          <div className='flex items-center justify-center rounded bg-[#ffffff20] w-[30px] h-[30px]'>
-            <ArrowDownwardIcon className='text-white' fontSize='small' />
+        {/* Transacciones recientes */}
+        <div className='p-5 min-h-[460px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+          <div className='flex justify-between'>
+            <p className='text-azulMarino font-medium'>Transacciones recientes</p>
+            <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold'>Ver todas</button>
           </div>
-          <p className='text-white text-[14px] '>Te estas quedando limpio compadre</p>
+          <Transacciones>
+            <CardInOut></CardInOut>
+            <CardInOut></CardInOut>
+            <CardInOut></CardInOut>
+            <CardInOut></CardInOut>
+          </Transacciones>
         </div>
-      </div>
+        {/* Objetivos */}
+        <div className='pl-[20px] pr-[20px] min-h-[270px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+          <div className='flex justify-between'>
+            <p className='text-azulMarino font-medium'>Lista de objetivos</p>
+            <button onClick={() => router.push('objetivos')} className='text-azulMarino font-semibold'>Ver todas</button>
 
-      {/* Transacciones recientes */}
-      <div className='p-5 min-h-[460px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-        <div className='flex justify-between'>
-          <p className='text-azulMarino font-medium'>Transacciones recientes</p>
-          <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold'>Ver todas</button>
-        </div>
-        <Transacciones>
-          <CardInOut></CardInOut>
-          <CardInOut></CardInOut>
-          <CardInOut></CardInOut>
-          <CardInOut></CardInOut>
-        </Transacciones>
-      </div>
-      {/* Objetivos */}
-      <div className='pl-[20px] pr-[20px] min-h-[270px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-        <div className='flex justify-between'>
-          <p className='text-azulMarino font-medium'>Lista de objetivos</p>
-          <button onClick={() => router.push('objetivos')} className='text-azulMarino font-semibold'>Ver todas</button>
+          </div>
+          <Transacciones>
+            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={200} date={"11 Oct 2021"} />
+            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
+
+          </Transacciones>
 
         </div>
-        <Transacciones>
-          <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={200} date={"11 Oct 2021"} />
-          <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
 
-        </Transacciones>
+        <div className='pl-[20px] pr-[20px] min-h-[400px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+          <div className='flex justify-between'>
+            <p className='text-azulMarino font-medium'>Lista de deudas</p>
+            <button onClick={() => router.push('deudas')} className='text-azulMarino font-semibold'>Ver todas</button>
 
-      </div>
+          </div>
+          <Transacciones>
+            <CardDebts description={'Subscripcion mensual'} title={'Spotify Sub.'} total={'-7.00'} date={'11 Oct 2021'} />
+            <CardDebts description={'Mensualidad Cantv'} completada={true} title={'Internet.'} total={'50.00'} date={'25 Mayo 2024'} />
 
-      <div className='pl-[20px] pr-[20px] min-h-[400px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-        <div className='flex justify-between'>
-          <p className='text-azulMarino font-medium'>Lista de deudas</p>
-          <button onClick={() => router.push('deudas')} className='text-azulMarino font-semibold'>Ver todas</button>
+          </Transacciones>
 
         </div>
-        <Transacciones>
-          <CardDebts description={'Subscripcion mensual'} title={'Spotify Sub.'} total={'-7.00'} date={'11 Oct 2021'} />
-          <CardDebts description={'Mensualidad Cantv'} completada={true} title={'Internet.'} total={'50.00'} date={'25 Mayo 2024'} />
 
-        </Transacciones>
+      </>
+        :
+        <SkeletonLoad />
 
-      </div>
+      }
 
     </div>
   )
