@@ -19,14 +19,14 @@ import CardDebts from '../components/CardDebts'
 import { obtenerUsuario } from '../firebase/auth/currentSesion'
 import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
 import SkeletonLoad from '../components/Skeleton'
+import { useUser } from '../customHooks/UserContext'
 const Page = () => {
 
 
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
-
   const [userData, setUserData] = useState(obtenerUsuario())
-  const [userProfile, setUserProfile] = useState({})
+  const { userProfile, setUserProfile } = useUser()
   const router = useRouter()
 
   if (!userData) router.push('/login')
@@ -39,7 +39,6 @@ const Page = () => {
     profile()
 
   }, [userData])
-
 
 
   return (
@@ -60,7 +59,7 @@ const Page = () => {
           : optionModal === 1 ? <Pagos />
             : <Transferencias />}
       </Modal>
-      {userProfile.username ? <>
+      {userProfile?.username ? <>
 
         <div className={` bg-azulMarino w-full h-[260px]`}>
           <Image className='absolute w-full' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>

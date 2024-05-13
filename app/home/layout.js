@@ -1,12 +1,18 @@
+'use client'
+
 import React from 'react'
 import Navbar from '../components/Navbar'
+import { UserProvider } from '../customHooks/UserContext'
 
 const Layout = ({ children }) => {
   return (
-    <div>
-      {children}
-      <Navbar page={'Home'} />
-    </div>
+    <UserProvider>
+      <div>
+        {children}
+        <Navbar page={'Home'} />
+      </div>
+
+    </UserProvider>
   )
 }
 

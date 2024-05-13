@@ -7,8 +7,12 @@ import { agregarIngreso } from '../firebase/firestore/AddIngreso'
 import useModal from '../customHooks/useModa'
 import SuccesfullModal from './succesfullModal'
 import { Backdrop, CircularProgress } from '@mui/material'
+import { obtenerUsuario } from '../firebase/auth/currentSesion'
+import { useUser } from '../customHooks/UserContext'
+import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
 
 const Ingresos = () => {
+  const { userProfile, setUserProfile } = useUser()
 
   const { isOpen, openModal, closeModal } = useModal()
   const [isLoading, setIsLoading] = useState(false)
@@ -30,8 +34,19 @@ const Ingresos = () => {
     e.preventDefault()
     setIsLoading(true)
     try {
+
       const res = await agregarIngreso(newIngreso)
+      const userFromFireStore = await getUserProfile(obtenerUsuario().uid)
+      setUserProfile(userFromFireStore)
       setIsLoading(false)
+      setNewIngreso({
+        fecha: '',
+        importe: '',
+        titulo: '',
+        categoria: 'Salario',
+        cuenta: 'Cuentas',
+        descripcion: ''
+      })
       openModal()
 
     } catch (error) {
