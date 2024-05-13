@@ -11,8 +11,7 @@ import Ingresos from '../components/Ingresos'
 import Pagos from '../components/Pagos'
 import Transferencias from '../components/Transferencias'
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useRouter } from 'next/router'
-
+import { useRouter } from 'next/navigation'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CardInOut from '../components/CardInOut'
 import CardObjetive from '../components/CardObjetive'
@@ -31,7 +30,7 @@ const Page = () => {
   const { userProfile, setUserProfile } = useUser()
   const router = useRouter()
 
-  if (!userData) router.push('/login')
+  // if (!userData) router.push('/login')
 
   useEffect(() => {
     sub(userData.uid)

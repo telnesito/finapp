@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import PersonIcon from '@mui/icons-material/Person';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import LockIcon from '@mui/icons-material/Lock';
-import { useRouter } from 'next/router'
-
+import { useRouter } from 'next/navigation'
 
 import EmailIcon from '@mui/icons-material/Email';
 import CardProfile from '../components/CardProfile';
@@ -15,7 +14,7 @@ const Page = () => {
   const router = useRouter()
   const [userData,] = useState(obtenerUsuario())
 
-  if (!userData) router.push('/login')
+  // if (!userData) router.push('/login')
   return (
 
     <div className='p-5 min-h-[760px] bg-[#F9FAFC]'>
