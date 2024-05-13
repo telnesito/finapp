@@ -20,6 +20,7 @@ import { obtenerUsuario } from '../firebase/auth/currentSesion'
 import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
 import SkeletonLoad from '../components/Skeleton'
 import { useUser } from '../customHooks/UserContext'
+import { sub } from '../firebase/firestore/getTransaction'
 const Page = () => {
 
 
@@ -32,6 +33,7 @@ const Page = () => {
   if (!userData) router.push('/login')
 
   useEffect(() => {
+    sub(userData.uid)
     const profile = async () => {
       const userFromFireStore = await getUserProfile(userData?.uid)
       setUserProfile(userFromFireStore)
