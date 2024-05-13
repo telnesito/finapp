@@ -11,7 +11,8 @@ import Ingresos from '../components/Ingresos'
 import Pagos from '../components/Pagos'
 import Transferencias from '../components/Transferencias'
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
+
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CardInOut from '../components/CardInOut'
 import CardObjetive from '../components/CardObjetive'
