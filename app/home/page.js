@@ -24,6 +24,7 @@ const Page = () => {
 
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
+
   const [userData, setUserData] = useState(obtenerUsuario())
   const [userProfile, setUserProfile] = useState({})
   const router = useRouter()

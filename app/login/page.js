@@ -10,6 +10,7 @@ import useLoading from '../customHooks/useLoading'
 import useModal from '../customHooks/useModa'
 import { Backdrop, CircularProgress } from '@mui/material'
 import ErrorModal from '../components/ErrorModal'
+import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
 const Page = () => {
 
   const { closeModal, isOpen, openModal } = useModal()

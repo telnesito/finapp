@@ -4,33 +4,50 @@ import React, { useState } from 'react'
 import TextField from './TextField'
 import Button from './Button'
 import { agregarIngreso } from '../firebase/firestore/AddIngreso'
+import useModal from '../customHooks/useModa'
+import SuccesfullModal from './succesfullModal'
+import { Backdrop, CircularProgress } from '@mui/material'
 
 const Ingresos = () => {
 
+  const { isOpen, openModal, closeModal } = useModal()
+  const [isLoading, setIsLoading] = useState(false)
+
   const [newIngreso, setNewIngreso] = useState({
-    fecha: '2024-05-20',
-    importe: '200',
-    titulo: 'Venta de playStation',
-    categoria: 'Otros',
+    fecha: '',
+    importe: '',
+    titulo: '',
+    categoria: 'Salario',
     cuenta: 'Cuentas',
-    descripcion: 'Venta de playStation 4 usado'
+    descripcion: ''
   })
+
+  const handleGetText = (name, value) => {
+    setNewIngreso({ ...newIngreso, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const res = await agregarIngreso(newIngreso)
-    console.log(res)
+    setIsLoading(true)
+    try {
+      const res = await agregarIngreso(newIngreso)
+      setIsLoading(false)
+      openModal()
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <form onSubmit={(e) => handleSubmit(e)} className='animate-fade-aparecer mt-[15px] flex flex-col gap-2 '>
-      <TextField label={'Fecha'} type='date' />
-      <TextField label={'Importe'} type='number' />
-      <TextField label={'Titulo'} type='text' />
+      <TextField defaultValue={newIngreso.fecha} onChange={(value) => handleGetText('fecha', value)} label={'Fecha'} type='date' />
+      <TextField defaultValue={newIngreso.importe} onChange={(value) => handleGetText('importe', value)} label={'Importe'} type='number' />
+      <TextField defaultValue={newIngreso.titulo} onChange={(value) => handleGetText('titulo', value)} label={'Titulo'} type='text' />
 
       <div>
         <p className='text-GrisLabel text-[12px] mb-1'>Categoria</p>
-        <select required className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
+        <select value={newIngreso.categoria} onChange={({ target }) => handleGetText('categoria', target.value)} required className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
           <option >Salario</option>
           <option>Freelance</option>
           <option>Dinero extra</option>
@@ -41,17 +58,27 @@ const Ingresos = () => {
 
       <div>
         <p className='text-GrisLabel text-[12px] mb-1'>Cuenta</p>
-        <select required className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
-          <option >Cuentas</option>
+        <select value={newIngreso.cuenta} onChange={({ target }) => handleGetText('cuenta', target.value)} required className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
+          <option defaultChecked >Cuentas</option>
           <option>Efectivo</option>
           <option>Tarjeta de credito</option>
         </select>
       </div>
       <p className='text-GrisLabel text-[12px]'>Descripcion</p>
-      <textarea required className='w-full focus:bg-white  placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]' placeholder='Descripcion' cols={'20'} rows={'4'} />
+      <textarea value={newIngreso.descripcion} onChange={({ target }) => handleGetText('descripcion', target.value)} required className='w-full focus:bg-white  placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]' placeholder='Descripcion' cols={'20'} rows={'4'} />
       <div className='mt-4 flex items-center w-full justify-center'>
         <Button value={'Guardar'} type='contained' />
       </div>
+      <SuccesfullModal closeModal={closeModal} text={'Se ha registrado un ingreso correctamente'} isOpen={isOpen} />
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
     </form>
   )
 }
