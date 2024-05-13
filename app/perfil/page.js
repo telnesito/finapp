@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import PersonIcon from '@mui/icons-material/Person';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import LockIcon from '@mui/icons-material/Lock';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
+
 
 import EmailIcon from '@mui/icons-material/Email';
 import CardProfile from '../components/CardProfile';
