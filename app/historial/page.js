@@ -1,14 +1,36 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Transacciones from '../components/Transacciones'
 import ButtonTabs from '../components/ButtonTabs'
 import Tabs from '../components/Tabs'
 import BackPage from '../components/BackPage'
 import CardInOut from '../components/CardInOut'
+import { obtenerTransacciones } from '../firebase/firestore/getTransaction'
+import { obtenerUsuario } from '../firebase/auth/currentSesion'
+import { useRouter } from 'next/navigation'
+import { useUser } from '../customHooks/UserContext'
 
 const Page = () => {
   const [optionModal, setOptionModal] = useState(0)
+  const [userData, setUserData] = useState(obtenerUsuario())
+  const [transacciones, setTransacciones] = useState([])
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!userData) {
+      router.push('/login');
+    } else {
+      const unsub = obtenerTransacciones(userData.uid, (transaccionesData) => {
+        setTransacciones(transaccionesData);
+      });
+
+      // Cleanup subscription on unmount
+    }
+
+  }, [userData])
+
+
   return (
     <div className='bg-[#F9FAFC] pl-[20px] pt-[20px] pr-[20px]'>
 
@@ -21,24 +43,27 @@ const Page = () => {
         <div className='mt-4'>
           <BackPage destino={'home'} paginaActual={'Transacciones'}></BackPage>
           {optionModal === 0 ? <Transacciones>
-            <CardInOut />
-            <CardInOut />
-            <CardInOut />
-            <CardInOut />
-            <CardInOut />
+            {transacciones
+              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+              .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
+                <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+              )}
           </Transacciones>
             : optionModal === 1 ? <Transacciones >
-              <CardInOut />
-              <CardInOut />
-              <CardInOut />
-
+              {transacciones
+                .filter(({ tipo }) => tipo === 1)
+                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
+                  <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+                )}
             </Transacciones>
               : <Transacciones>
-                <CardInOut />
-                <CardInOut />
-                <CardInOut />
-                <CardInOut />
-
+                {transacciones
+                  .filter(({ tipo }) => tipo === 2)
+                  .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                  .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
+                    <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+                  )}
               </Transacciones>}
         </div>
       </div>

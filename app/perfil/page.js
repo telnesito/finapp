@@ -14,7 +14,7 @@ const Page = () => {
   const router = useRouter()
   const [userData,] = useState(obtenerUsuario())
 
-  if (!userData) router.push('/login')
+  // if (!userData) router.push('/login')
   return (
 
     <div className='p-5 min-h-[760px] bg-[#F9FAFC]'>

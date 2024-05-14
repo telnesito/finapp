@@ -4,7 +4,7 @@ import { getUserProfile } from "./getProfileFromDb";
 
 export const agregarIngreso = async (data) => {
   try {
-    const { fecha, importe, titulo, categoria, cuenta, descripcion } = data;
+    const { fecha, importe, titulo, categoria, cuenta, descripcion, tipo } = data;
 
     // Comprobamos si hay un usuario iniciado
     if (auth.currentUser) {
@@ -12,7 +12,7 @@ export const agregarIngreso = async (data) => {
       // Creamos una referencia al documento del proyecto en la colección "proyectos" del usuario correspondiente
 
       const profileDoc = doc(db, "users", uid)
-      const ingresoDoc = doc(collection(db, "users", uid, "ingresos"));
+      const ingresoDoc = doc(collection(db, "users", uid, "transacciones"));
       // Establecemos los datos del proyecto en el documento correspondiente
       await setDoc(ingresoDoc, {
         fecha,
@@ -20,7 +20,8 @@ export const agregarIngreso = async (data) => {
         titulo,
         categoria,
         cuenta,
-        descripcion
+        descripcion,
+        tipo
       });
       const userData = await getUserProfile(uid)
       // console.log(userData)
