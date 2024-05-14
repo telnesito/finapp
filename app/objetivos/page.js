@@ -33,16 +33,16 @@ const Page = () => {
         </Tabs>
         <div className='mt-4'>
           {optionModal === 0 ? <Transacciones>
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={200} date={"11 Oct 2021"} />
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
+            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={200} date={"11 Oct 2021"}/>
+            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
 
           </Transacciones>
             : optionModal === 1 ? <Transacciones>
-              <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
+              <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
 
             </Transacciones>
               : <Transacciones>
-                <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
+        <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
               </Transacciones>}
         </div>
 
@@ -87,5 +87,5 @@ const Page = () => {
     </div>
   )
 }
-
+ 
 export default Page
