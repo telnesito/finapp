@@ -7,6 +7,7 @@ import { AiFillCreditCard } from "react-icons/ai";
 import { AiFillCarryOut } from "react-icons/ai";
 import { AiOutlineMessage } from "react-icons/ai";
 import { TiUser } from "react-icons/ti";
+import { AiFillMessage } from "react-icons/ai";
 export const onBoarding =
   [
     {
@@ -55,7 +56,7 @@ export const NAVBAR = [
   {
     page: 'Chatbot',
     icon: AiOutlineMessage,
-    activeIcon: AiOutlineMessage
+    activeIcon: AiFillMessage
   },
   {
     page: 'Perfil',

@@ -139,7 +139,6 @@ const Page = () => {
 
                 <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
               )}
-
           </Transacciones>
 
         </div>
