@@ -6,10 +6,13 @@ import TextField from "./TextField";
 import Button from "./Button";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 
-const CardObjetive = ({ title, description, date, total, current, state, category }) => {
+const CardObjetive = ({ title, description, date, total, current, state, category, id, percentaje }) => {
   // Calcular el porcentaje de progreso
   const progress = Math.floor((current / total) * 100);
   const { closeModal, isOpen, openModal } = useModal();
+  const fecha = new Date(date)
+  // To do: Pasar a constantes en otro archivo
+  const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
 
   const [newObjetivo, setNewObjetivo] = useState({
@@ -50,19 +53,19 @@ const CardObjetive = ({ title, description, date, total, current, state, categor
         </div>
         <div className="flex flex-col ">
           {/* Mostrar el progreso */}
-          {progress === 100 ? (
+          {percentaje === 100 ? (
             <>
               <strike className={`text-black text-[16px] text-right`}>
-                {progress + "%"}
+                {percentaje + "%"}
               </strike>
-              <p className="text-gray-300 text-[12px] text-right">{date}</p>
+              <p className="text-gray-300 text-[12px] text-right">{fecha.getDate() + " " + meses[fecha.getMonth()] + " " + fecha.getFullYear()}</p>
             </>
           ) : (
             <>
               <p className={`text-black-400 text-[16px] text-right`}>
-                {progress + "%"}
+                {percentaje + "%"}
               </p>
-              <p className="text-gray-300 text-[12px] text-right">{date}</p>
+              <p className="text-gray-300 text-[12px] text-right">{fecha.getDate() + " " + meses[fecha.getMonth()] + " " + fecha.getFullYear()}</p>
             </>
           )}
         </div>

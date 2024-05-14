@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Transacciones from '../components/Transacciones'
 import ButtonTabs from '../components/ButtonTabs'
 import CardObjetive from '../components/CardObjetive'
@@ -14,17 +14,32 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import Button from '../components/Button'
 import { agregarObjetivo } from '../firebase/firestore/addObjetive'
 import SuccesfullModal from '../components/SuccesfullModal'
-
+import { obtenerUsuario } from '../firebase/auth/currentSesion'
+import { obtenerObjetivos } from '../firebase/firestore/getObjetives'
+import { useRouter } from 'next/navigation'
 
 const Page = () => {
   const { isOpen, openModal, isClosing, closeModal } = useModal()
   const modalConfirmacion = useModal()
-
+  const [userData, setUserData] = useState(obtenerUsuario())
   const [optionModal, setOptionModal] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  const [objetivos, setObjetivos] = useState([])
+  const router = useRouter()
 
-  // const progress = Math.floor((current / total) * 100);
 
+  useEffect(() => {
+    if (!userData) {
+      router.push('/login');
+    } else {
+      const unsub = obtenerObjetivos(userData.uid, (objetivosData) => {
+        setObjetivos(objetivosData);
+      });
+
+      // Cleanup subscription on unmount
+    }
+
+  }, [userData])
 
   const [newObjetivo, setNewObjetivo] = useState({
     fecha: '',
@@ -84,17 +99,34 @@ const Page = () => {
         </Tabs>
         <div className='mt-4'>
           {optionModal === 0 ? <Transacciones>
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={200} date={"11 Oct 2021"} />
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
+            {objetivos
+              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+              .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+
+                <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+              )}
 
           </Transacciones>
             : optionModal === 1 ? <Transacciones>
-              <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
+              {objetivos
+                .filter(({ porcentaje }) => porcentaje === 100)
+                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+
+                  <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+                )}
 
             </Transacciones>
               : <Transacciones>
-                <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
-              </Transacciones>}
+                {objetivos
+                  .filter(({ porcentaje }) => porcentaje !== 100)
+                  .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                  .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+
+                    <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+                  )}
+              </Transacciones>
+          }
         </div>
 
         <Modal isOpen={isOpen} isClosing={isClosing} closeModal={closeModal} >
