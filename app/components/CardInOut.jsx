@@ -145,7 +145,8 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
 
             <div>
               <p className='text-GrisLabel text-[12px] mb-1'>Cuenta</p>
-              <select required value={updatedFields.cuenta} onChange={({ target }) => handleGetText('cuenta', target.value)} className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
+              <select required value={updatedFields.cuenta}
+                onChange={({ target }) => handleGetText('cuenta', target.value)} className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
                 <option >Cuentas</option>
                 <option>Efectivo</option>
                 <option>Tarjeta de credito</option>

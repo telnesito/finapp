@@ -1,15 +1,29 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import useModal from "../customHooks/useModa";
 import { Box, Modal } from "@mui/material";
 import TextField from "./TextField";
 import Button from "./Button";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 
-const CardObjetive = ({ title, description, date, total, current }) => {
+const CardObjetive = ({ title, description, date, total, current, state, category }) => {
   // Calcular el porcentaje de progreso
   const progress = Math.floor((current / total) * 100);
   const { closeModal, isOpen, openModal } = useModal();
+
+
+  const [newObjetivo, setNewObjetivo] = useState({
+    fecha: '',
+    meta: '',
+    titulo: '',
+    categoria: 'Entretenimiento',
+    descripcion: '',
+    estado: 1
+  })
+
+  const handleGetText = (name, value) => {
+    setNewObjetivo({ ...newObjetivo, [name]: value });
+  };
 
   return (
     <div className={"p-[10px]"} onClick={() => openModal()}>

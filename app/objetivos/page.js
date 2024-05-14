@@ -5,18 +5,69 @@ import Transacciones from '../components/Transacciones'
 import ButtonTabs from '../components/ButtonTabs'
 import CardObjetive from '../components/CardObjetive'
 import Tabs from '../components/Tabs'
-import { Box } from '@mui/material'
+import { Backdrop, Box, CircularProgress } from '@mui/material'
 import useModal from '../customHooks/useModa'
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '../components/Modal'
 import TextField from '../components/TextField'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import Button from '../components/Button'
+import { agregarObjetivo } from '../firebase/firestore/addObjetive'
+import SuccesfullModal from '../components/SuccesfullModal'
 
 
 const Page = () => {
   const { isOpen, openModal, isClosing, closeModal } = useModal()
+  const modalConfirmacion = useModal()
+
   const [optionModal, setOptionModal] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
+
+  // const progress = Math.floor((current / total) * 100);
+
+
+  const [newObjetivo, setNewObjetivo] = useState({
+    fecha: '',
+    meta: '',
+    titulo: '',
+    categoria: 'Entretenimiento',
+    descripcion: '',
+    estado: 1,
+    saldoActual: '',
+    porcentaje: ''
+  })
+
+  const handleGetText = (name, value) => {
+    setNewObjetivo({ ...newObjetivo, [name]: value });
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    try {
+
+      const res = await agregarObjetivo(newObjetivo)
+      setIsLoading(false)
+      modalConfirmacion.openModal()
+      setNewObjetivo({
+        fecha: '',
+        meta: '',
+        titulo: '',
+        categoria: 'Entretenimiento',
+        descripcion: '',
+        estado: 1,
+        saldoActual: '',
+        porcentaje: ''
+
+      })
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='bg-[#F9FAFC] pl-[20px] pt-[20px] pr-[20px]'>
       <Box padding={'15px 15px'} onClick={() => openModal()} component={'button'} position={'fixed'} bottom={'100px'} right={'20px'} display={'flex'} justifyContent={'center'} alignItems={'center'} width={'60px'} height={'60px'} borderRadius={'100%'} bgcolor={'#100D40'}>
@@ -33,16 +84,16 @@ const Page = () => {
         </Tabs>
         <div className='mt-4'>
           {optionModal === 0 ? <Transacciones>
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={200} date={"11 Oct 2021"}/>
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
+            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={200} date={"11 Oct 2021"} />
+            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
 
           </Transacciones>
             : optionModal === 1 ? <Transacciones>
-              <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
+              <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
 
             </Transacciones>
               : <Transacciones>
-        <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
+                <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
               </Transacciones>}
         </div>
 
@@ -53,21 +104,28 @@ const Page = () => {
             <p className='text-azulMarino text-[18px] font-medium '>Agregar Objetivo</p>
           </Box>
 
-          <form>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <div className='flex flex-col gap-4'>
-              <TextField label={'Fecha de pago'} type='date'></TextField>
+              <TextField onChange={(value) => handleGetText('fecha', value)} defaultValue={newObjetivo.fecha} label={'Fecha de pago'} type='date'></TextField>
 
-              <TextField label={'Titulo'} type='text'></TextField>
-              <TextField label={'Descripcion'} type='text'></TextField>
-              <TextField label={'Total objetivo'} type='number'></TextField>
+              <TextField onChange={(value) => handleGetText('titulo', value)} defaultValue={newObjetivo.titulo} label={'Titulo'} type='text'></TextField>
+              <TextField onChange={(value) => handleGetText('descripcion', value)} defaultValue={newObjetivo.descripcion} label={'Descripcion'} type='text'></TextField>
+              <TextField min={0} onChange={(value) => handleGetText('meta', value)} defaultValue={newObjetivo.meta} label={'Total objetivo'} type='number'></TextField>
+              <TextField onChange={(value) => handleGetText('saldoActual', value)} defaultValue={newObjetivo.saldoActual} label={'Saldo actual'} min={0} type='number'></TextField>
+
               <div>
                 <p className='text-GrisLabel text-[12px] mb-1'>Categoria</p>
-                <select required className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
-                  <option >Tarjeta de credito</option>
-                  <option>Servicios de streaming</option>
-                  <option>Internet</option>
-                  <option>Agua</option>
-                  <option>Electricidad</option>
+                <select required value={newObjetivo.categoria}
+                  onChange={({ target }) => handleGetText('categoria', target.value)} className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
+                  <option >Comida</option>
+                  <option>Entretenimiento</option>
+                  <option>Transporte</option>
+                  <option>Cultura</option>
+                  <option>Regalos</option>
+                  <option>Educacion</option>
+                  <option>Ropa</option>
+                  <option>Mantenimiento del hogar</option>
+                  <option>Productos de belleza</option>
                   <option>Otro</option>
 
                 </select>
@@ -76,7 +134,15 @@ const Page = () => {
                 <Button value={'Agregar'} type='contained' />
               </div>
             </div>
+            <SuccesfullModal closeModal={modalConfirmacion.closeModal} text={'Se ha registrado un objetivo correctamente'} isOpen={modalConfirmacion.isOpen} />
 
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={isLoading}
+
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
 
 
           </form>
@@ -87,5 +153,5 @@ const Page = () => {
     </div>
   )
 }
- 
+
 export default Page
