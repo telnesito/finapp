@@ -6,10 +6,15 @@ import TextField from './TextField'
 import Button from './Button'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
-const CardInOut = () => {
+const CardInOut = ({ title, description, amounth, category, date, account }) => {
 
   const { closeModal, isOpen, openModal } = useModal()
+  const fecha = new Date(date)
+  // To do: Pasar a constantes en otro archivo
+  const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
   return (
+
     <div className={'p-[10px]'} onClick={() => openModal()}>
       <div className='flex justify-between'>
         <div className='flex h-[55px] gap-[15px] '>
@@ -17,14 +22,19 @@ const CardInOut = () => {
             <Image width={15} height={20} alt='uparrow' src={'/songicon.svg'}></Image>
           </div>
           <div>
-            <p className='text-[16px] text-azulMarino font-medium'>Spotify Subscr.</p>
-            <p className='text-gray-300 text-[12px]'>Subscription</p>
+            <p className='text-[16px] text-azulMarino font-medium'>{title}</p>
+            <p className='text-gray-300 text-[12px]'>{description}</p>
           </div>
 
         </div>
         <div>
-          <p className='text-red-400 text-[16px] text-right'>-$144.00</p>
-          <p className='text-gray-300 text-[12px] text-right'>18 Sept 2019</p>
+          {amounth > 0 ?
+            <p className='text-green-600 text-[16px] text-right'>+{amounth}$</p>
+            :
+            <p className='text-red-400 text-[16px] text-right'>{amounth}$</p>
+
+          }
+          <p className='text-gray-300 text-[12px] text-right'>{fecha.getDate() + " " + meses[fecha.getMonth()] + " " + fecha.getFullYear()}</p>
         </div>
       </div>
       {/* Divider */}
@@ -36,7 +46,7 @@ const CardInOut = () => {
         alignItems: 'center',
         justifyContent: 'center'
       }} open={isOpen} onClose={closeModal}>
-        <div className='p-[20px] overflow-scroll w-11/12 h-5/6 bg-white'>
+        <div className='p-[20px] rounded-lg overflow-scroll w-11/12 h-5/6 bg-white'>
 
 
           <Box display={'flex'} component={'button'} onClick={() => closeModal()} flexDirection={'row'} marginBottom={'20px'} alignItems={'center'} gap={'10px'} >
@@ -44,14 +54,14 @@ const CardInOut = () => {
             <p className='text-azulMarino text-[16px] font-medium '>Detalle de <b>pago</b></p>
           </Box>
           <form>
-            <TextField label={'Fecha'} defaultValue={'2019-09-18'} type='date' />
-            <TextField label={'Importe'} defaultValue='144' type='number' />
-            <TextField label={'Titulo'} defaultValue='Spotify Subscr.' type='text' />
-            <TextField label={'Descripcion'} defaultValue='Subscription' type='text' />
+            <TextField label={'Fecha'} defaultValue={date} type='date' />
+            <TextField label={'Importe'} defaultValue={amounth} type='number' />
+            <TextField label={'Titulo'} defaultValue={title} type='text' />
+            <TextField label={'Descripcion'} defaultValue={description} type='text' />
 
             <div>
               <p className='text-GrisLabel text-[12px] mb-1'>Categoria</p>
-              <select required defaultValue={'Entretenimiento'} className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
+              <select required value={category} className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
                 <option >Comida</option>
                 <option>Entretenimiento</option>
                 <option>Transporte</option>
@@ -67,7 +77,7 @@ const CardInOut = () => {
 
             <div>
               <p className='text-GrisLabel text-[12px] mb-1'>Cuenta</p>
-              <select required className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
+              <select required value={account} className='w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]'>
                 <option >Cuenta bancaria</option>
                 <option>Efectivo</option>
                 <option>Tarjeta de credito</option>

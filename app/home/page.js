@@ -20,7 +20,7 @@ import { obtenerUsuario } from '../firebase/auth/currentSesion'
 import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
 import SkeletonLoad from '../components/Skeleton'
 import { useUser } from '../customHooks/UserContext'
-import { sub } from '../firebase/firestore/getTransaction'
+import { obtenerTransacciones } from '../firebase/firestore/getTransaction'
 const Page = () => {
 
 
@@ -28,12 +28,20 @@ const Page = () => {
   const [optionModal, setOptionModal] = useState(0)
   const [userData, setUserData] = useState(obtenerUsuario())
   const { userProfile, setUserProfile } = useUser()
+  const [transacciones, setTransacciones] = useState([])
   const router = useRouter()
 
-  // if (!userData) router.push('/login')
 
   useEffect(() => {
-    sub(userData.uid)
+    if (!userData) {
+      router.push('/login');
+    } else {
+      const unsub = obtenerTransacciones(userData.uid, (transaccionesData) => {
+        setTransacciones(transaccionesData);
+      });
+
+      // Cleanup subscription on unmount
+    }
     const profile = async () => {
       const userFromFireStore = await getUserProfile(userData?.uid)
       setUserProfile(userFromFireStore)
@@ -42,7 +50,7 @@ const Page = () => {
 
   }, [userData])
 
-
+  console.log(transacciones)
   return (
     <div className={`bg-[#F9FAFC] ${isOpen ? 'overflow-hidden' : ''} h-screen`}>
       <Modal closeModal={closeModal} isClosing={isClosing} isOpen={isOpen}>
@@ -98,12 +106,15 @@ const Page = () => {
             <p className='text-azulMarino font-medium'>Transacciones recientes</p>
             <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold'>Ver todas</button>
           </div>
+
           <Transacciones>
-            <CardInOut></CardInOut>
-            <CardInOut></CardInOut>
-            <CardInOut></CardInOut>
-            <CardInOut></CardInOut>
+            {transacciones
+              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+              .slice(0, 5).map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
+                <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+              )}
           </Transacciones>
+
         </div>
         {/* Objetivos */}
         <div className='pl-[20px] pr-[20px] min-h-[270px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>

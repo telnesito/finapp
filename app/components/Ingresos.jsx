@@ -23,7 +23,8 @@ const Ingresos = () => {
     titulo: '',
     categoria: 'Salario',
     cuenta: 'Cuentas',
-    descripcion: ''
+    descripcion: '',
+    tipo: 1
   })
 
   const handleGetText = (name, value) => {
@@ -45,7 +46,8 @@ const Ingresos = () => {
         titulo: '',
         categoria: 'Salario',
         cuenta: 'Cuentas',
-        descripcion: ''
+        descripcion: '',
+        tipo: 1
       })
       openModal()
 
