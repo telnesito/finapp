@@ -153,10 +153,13 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
             </div>
             <div className='flex items-center justify-center gap-5 flex-col mt-[40px]'>
               <Button value={'Editar'} type='contained' />
-              <Button onClick={() => handleDelete(id)} value={'Eliminar'} />
             </div>
 
           </form>
+          <div className='flex items-center justify-center mt-[10px]'>
+            <Button onClick={() => handleDelete(id)} value={'Eliminar'} />
+
+          </div>
           <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={isLoading}
