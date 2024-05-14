@@ -45,24 +45,24 @@ const Page = () => {
           {optionModal === 0 ? <Transacciones>
             {transacciones
               .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-              .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
-                <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+              .map(({ titulo, id, descripcion, tipo, fecha, categoria, importe, cuenta }, index) =>
+                <CardInOut tipo={tipo} id={id} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
               )}
           </Transacciones>
             : optionModal === 1 ? <Transacciones >
               {transacciones
                 .filter(({ tipo }) => tipo === 1)
                 .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
-                  <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+                .map(({ titulo, tipo, id, descripcion, fecha, categoria, importe, cuenta }, index) =>
+                  <CardInOut tipo={tipo} id={id} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
                 )}
             </Transacciones>
               : <Transacciones>
                 {transacciones
                   .filter(({ tipo }) => tipo === 2)
                   .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                  .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
-                    <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+                  .map(({ titulo, descripcion, fecha, categoria, id, tipo, importe, cuenta }, index) =>
+                    <CardInOut account={cuenta} tipo={tipo} id={id} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
                   )}
               </Transacciones>}
         </div>
