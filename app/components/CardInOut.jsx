@@ -8,6 +8,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { actualizarTransaccion } from '../firebase/firestore/updateTransaction'
 import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
 import { obtenerUsuario } from '../firebase/auth/currentSesion'
+import { eliminarTransaccion } from '../firebase/firestore/deleteTransaction'
 
 const CardInOut = ({ title, description, amounth, category, date, account, tipo, id }) => {
 
@@ -33,6 +34,20 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
   const fecha = new Date(date)
   // To do: Pasar a constantes en otro archivo
   const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
+  const handleDelete = async (id) => {
+    closeModal()
+    setIsLoading(true)
+
+    try {
+      await eliminarTransaccion(id)
+
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   const handleUpdate = async (e) => {
     e.preventDefault()
@@ -138,7 +153,7 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
             </div>
             <div className='flex items-center justify-center gap-5 flex-col mt-[40px]'>
               <Button value={'Editar'} type='contained' />
-              <Button value={'Eliminar'} />
+              <Button onClick={() => handleDelete(id)} value={'Eliminar'} />
             </div>
 
           </form>
