@@ -45,7 +45,6 @@ const Page = () => {
           {optionModal === 0 ? <Transacciones>
             {transacciones
               .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-              .slice(0, 5)
               .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
                 <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
               )}
@@ -54,7 +53,6 @@ const Page = () => {
               {transacciones
                 .filter(({ tipo }) => tipo === 1)
                 .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                .slice(0, 5)
                 .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
                   <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
                 )}
@@ -63,7 +61,6 @@ const Page = () => {
                 {transacciones
                   .filter(({ tipo }) => tipo === 2)
                   .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                  .slice(0, 5)
                   .map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
                     <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
                   )}

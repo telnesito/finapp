@@ -59,7 +59,7 @@ const Ingresos = () => {
   return (
     <form onSubmit={(e) => handleSubmit(e)} className='animate-fade-aparecer mt-[15px] flex flex-col gap-2 '>
       <TextField defaultValue={newIngreso.fecha} onChange={(value) => handleGetText('fecha', value)} label={'Fecha'} type='date' />
-      <TextField defaultValue={newIngreso.importe} onChange={(value) => handleGetText('importe', value)} label={'Importe'} type='number' />
+      <TextField defaultValue={newIngreso.importe} min={0} onChange={(value) => handleGetText('importe', value)} label={'Importe'} type='number' />
       <TextField defaultValue={newIngreso.titulo} onChange={(value) => handleGetText('titulo', value)} label={'Titulo'} type='text' />
 
       <div>
