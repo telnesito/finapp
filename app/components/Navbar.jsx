@@ -11,7 +11,7 @@ const Navbar = ({ page }) => {
       {NAVBAR.map(
         ({ page: pageIcon, icon: Icon, activeIcon: ActiveIcon }, index) => (
           <button
-            onClick={() => router.push(pageIcon.toLocaleLowerCase())}
+            onClick={() => router.push("/" + pageIcon.toLocaleLowerCase())}
             key={index}
             type="button"
             className="active:bg-[#00000010] transition-all w-[60px] p-2 rounded flex flex-col items-center "
@@ -23,6 +23,7 @@ const Navbar = ({ page }) => {
               </>
             ) : (
               <>
+
                 <Icon className="text-azulMarino" size={"25px"} />
 
                 <p className="text-[10px]">{pageIcon}</p>
