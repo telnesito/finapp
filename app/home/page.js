@@ -110,8 +110,9 @@ const Page = () => {
           <Transacciones>
             {transacciones
               .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-              .slice(0, 5).map(({ titulo, descripcion, fecha, categoria, importe, cuenta }, index) =>
-                <CardInOut account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+              .slice(0, 5)
+              .map(({ titulo, id, descripcion, fecha, categoria, importe, cuenta, tipo }, index) =>
+                <CardInOut id={id} tipo={tipo} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
               )}
           </Transacciones>
 
