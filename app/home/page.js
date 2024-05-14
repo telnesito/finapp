@@ -21,12 +21,15 @@ import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
 import SkeletonLoad from '../components/Skeleton'
 import { useUser } from '../customHooks/UserContext'
 import { obtenerTransacciones } from '../firebase/firestore/getTransaction'
+import { obtenerObjetivos } from '../firebase/firestore/getObjetives'
 const Page = () => {
 
 
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
   const [userData, setUserData] = useState(obtenerUsuario())
+  const [objetivos, setObjetivos] = useState([])
+
   const { userProfile, setUserProfile } = useUser()
   const [transacciones, setTransacciones] = useState([])
   const router = useRouter()
@@ -38,6 +41,10 @@ const Page = () => {
     } else {
       const unsub = obtenerTransacciones(userData.uid, (transaccionesData) => {
         setTransacciones(transaccionesData);
+      });
+
+      const obj = obtenerObjetivos(userData.uid, (objetivosData) => {
+        setObjetivos(objetivosData);
       });
 
       // Cleanup subscription on unmount
@@ -125,8 +132,13 @@ const Page = () => {
 
           </div>
           <Transacciones>
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={200} date={"11 Oct 2021"} />
-            <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."} total={200} current={50} date={"11 Oct 2021"} />
+            {objetivos
+              .slice(0, 5)
+              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+              .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+
+                <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+              )}
 
           </Transacciones>
 
