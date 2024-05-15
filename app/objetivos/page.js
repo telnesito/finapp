@@ -32,7 +32,8 @@ const Page = () => {
             onClick={() => setOptionModal(index)} isActive={index === optionModal} key={index} text={value} />)}
         </Tabs>
         <div className='mt-4'>
-          {optionModal === 0 ? <Transacciones>
+          {optionModal === 0 ? 
+          <Transacciones>
             <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={200} date={"11 Oct 2021"}/>
             <CardObjetive description={"Subscripcion mensual"} title={"Spotify Sub."}total={200} current={50} date={"11 Oct 2021"}/>
 
