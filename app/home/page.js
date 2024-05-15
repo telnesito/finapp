@@ -143,7 +143,7 @@ const Page = () => {
 
         </div>
 
-        <div className='pl-[20px] pr-[20px] min-h-[400px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+        <div className='pl-[20px] mt-5 pr-[20px] min-h-[400px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
           <div className='flex justify-between'>
             <p className='text-azulMarino font-medium'>Lista de deudas</p>
             <button onClick={() => router.push('deudas')} className='text-azulMarino font-semibold'>Ver todas</button>

@@ -6,7 +6,7 @@ import TextField from "./TextField";
 import Button from "./Button";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 
-const CardDebts = ({ title, description, date, total, completada = false }) => {
+const CardDebts = ({ title, description, date, total, category, id, completada }) => {
   const { closeModal, isOpen, openModal } = useModal();
 
   return (
@@ -60,7 +60,7 @@ const CardDebts = ({ title, description, date, total, completada = false }) => {
         open={isOpen}
         onClose={closeModal}
       >
-        <div className="p-[20px] overflow-scroll w-11/12 h-5/6 bg-white">
+        <div className="p-[20px] rounded-xl overflow-scroll w-11/12 h-5/6 bg-white">
           <Box
             display={"flex"}
             component={"button"}
@@ -72,7 +72,7 @@ const CardDebts = ({ title, description, date, total, completada = false }) => {
           >
             <KeyboardArrowLeftIcon />
             <p className="text-azulMarino text-[16px] font-medium ">
-              Detalle de <b>pago</b>
+              Detalle de <b>deuda</b>
             </p>
           </Box>
           <form>
