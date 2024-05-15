@@ -9,6 +9,12 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 const CardDebts = ({ title, description, date, total, category, id, completada }) => {
   const { closeModal, isOpen, openModal } = useModal();
 
+  const fecha = new Date(date)
+  // To do: Pasar a constantes en otro archivo
+  const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
+
+
   return (
     <div className="p-[10px]" onClick={() => openModal()}>
       <div className="flex justify-between">
@@ -37,14 +43,14 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
               <strike className={`text-black text-[16px] text-right`}>
                 {total > 0 ? total + "$" : total + "$"}
               </strike>
-              <p className="text-gray-300 text-[12px] text-right">{date}</p>
+              <p className="text-gray-300 text-[12px] text-right">{fecha.getDate() + " " + meses[fecha.getMonth()] + " " + fecha.getFullYear()}</p>
             </>
           ) : (
             <>
               <p className={`text-red-400 text-[16px] text-right`}>
                 {total > 0 ? total + "$" : total + "$"}
               </p>
-              <p className="text-gray-300 text-[12px] text-right">{date}</p>
+              <p className="text-gray-300 text-[12px] text-right">{fecha.getDate() + " " + meses[fecha.getMonth()] + " " + fecha.getFullYear()}</p>
             </>
           )}
         </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Transacciones from '../components/Transacciones'
 import ButtonTabs from '../components/ButtonTabs'
 import CardDebts from '../components/CardDebts'
@@ -14,16 +14,38 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import Button from '../components/Button'
 import { agregarDeuda } from '../firebase/firestore/addDeuda'
 import SuccesfullModal from '../components/SuccesfullModal'
+import { obtenerUsuario } from '../firebase/auth/currentSesion'
+import { obtenerDeudas } from '../firebase/firestore/getDeudas'
+import { useRouter } from 'next/navigation'
 
 
 const Page = () => {
   const { isOpen, openModal, isClosing, closeModal } = useModal()
   const [isLoading, setIsLoading] = useState(false)
   const modalConfirmacion = useModal()
+  const [userData, setUserData] = useState(obtenerUsuario())
+  const [deudas, setDeudas] = useState([])
 
   const handleGetText = (name, value) => {
     setNewDeuda({ ...newDeuda, [name]: value });
   };
+
+  const router = useRouter()
+
+
+  useEffect(() => {
+    if (!userData) {
+      router.push('/login');
+    } else {
+      const unsub = obtenerDeudas(userData.uid, (deudaData) => {
+        setDeudas(deudaData);
+      });
+
+      // Cleanup subscription on unmount
+    }
+
+  }, [userData])
+
 
   const [newDeuda, setNewDeuda] = useState({
     titulo: '',
@@ -65,16 +87,33 @@ const Page = () => {
         </Tabs>
         <div className='mt-4'>
           {optionModal === 0 ? <Transacciones>
-            <CardDebts description={'Subscripcion mensual'} title={'Spotify Sub.'} total={'-7.00'} date={'11 Oct 2021'} />
-            <CardDebts description={'Mensualidad Cantv'} completada={true} title={'Internet.'} total={'50.00'} date={'25 Mayo 2024'} />
+            {deudas
+              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+              .map(({ descripcion, titulo, monto, fecha, categoria, id, completada }) =>
 
+                <CardDebts key={id} description={descripcion} total={monto} id={id} completada={completada} title={titulo} category={categoria} date={fecha} />
+              )}
           </Transacciones>
             : optionModal === 1 ? <Transacciones>
-              <CardDebts description={'Mensualidad Cantv'} completada={true} title={'Internet.'} total={'50.00'} date={'25 Mayo 2024'} />
+
+              {deudas
+                .filter(({ completada }) => completada === true)
+                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                .map(({ descripcion, titulo, monto, fecha, categoria, id, completada }) =>
+
+                  <CardDebts key={id} description={descripcion} total={monto} id={id} completada={completada} title={titulo} category={categoria} date={fecha} />
+                )}
+
 
             </Transacciones>
               : <Transacciones>
-                <CardDebts description={'Subscripcion mensual'} title={'Spotify Sub.'} total={'-7.00'} date={'11 Oct 2021'} />
+                {deudas
+                  .filter(({ completada }) => completada === false)
+                  .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                  .map(({ descripcion, titulo, monto, fecha, categoria, id, completada }) =>
+
+                    <CardDebts key={id} description={descripcion} total={monto} id={id} completada={completada} title={titulo} category={categoria} date={fecha} />
+                  )}
 
               </Transacciones>}
         </div>
