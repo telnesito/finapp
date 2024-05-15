@@ -101,9 +101,9 @@ const Page = () => {
           {optionModal === 0 ? <Transacciones>
             {objetivos
               .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-              .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+              .map(({ descripcion, titulo, saldoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
 
-                <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+                <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={saldoActual} percentaje={porcentaje} date={fecha} />
               )}
 
           </Transacciones>
@@ -111,9 +111,9 @@ const Page = () => {
               {objetivos
                 .filter(({ porcentaje }) => porcentaje === 100)
                 .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+                .map(({ descripcion, titulo, saldoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
 
-                  <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+                  <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={saldoActual} percentaje={porcentaje} date={fecha} />
                 )}
 
             </Transacciones>
@@ -121,9 +121,9 @@ const Page = () => {
                 {objetivos
                   .filter(({ porcentaje }) => porcentaje !== 100)
                   .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                  .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+                  .map(({ descripcion, titulo, saldoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
 
-                    <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+                    <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={saldoActual} percentaje={porcentaje} date={fecha} />
                   )}
               </Transacciones>
           }
