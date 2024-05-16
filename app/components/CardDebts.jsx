@@ -1,19 +1,35 @@
 import Image from "next/image";
-import React from "react";
+import React, { use, useState } from "react";
 import useModal from "../customHooks/useModa";
-import { Box, Modal } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Modal } from "@mui/material";
 import TextField from "./TextField";
 import Button from "./Button";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import { eliminarDeuda } from "../firebase/firestore/deleteDeuda";
+import SuccesfullModal from "./SuccesfullModal";
 
 const CardDebts = ({ title, description, date, total, category, id, completada }) => {
   const { closeModal, isOpen, openModal } = useModal();
-
+  const [isLoading, setIsLoading] = useState(false)
+  const confirmDelete = useModal()
   const fecha = new Date(date)
   // To do: Pasar a constantes en otro archivo
   const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
 
+  const handleDelete = async () => {
+    setIsLoading(true)
+    try {
+      const res = await eliminarDeuda(id)
+      confirmDelete.openModal()
+      setIsLoading(false)
+
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <div className="p-[10px]" onClick={() => openModal()}>
@@ -84,18 +100,18 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
           <form>
             <TextField
               label={"Fecha"}
-              defaultValue={"2019-09-18"}
+              defaultValue={fecha}
               type="date"
             />
-            <TextField label={"Importe"} defaultValue="144" type="number" />
+            <TextField label={"Importe"} defaultValue={total} type="number" />
             <TextField
               label={"Titulo"}
-              defaultValue="Spotify Subscr."
+              defaultValue={title}
               type="text"
             />
             <TextField
               label={"Descripcion"}
-              defaultValue="Subscription"
+              defaultValue={description}
               type="text"
             />
 
@@ -103,7 +119,7 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
               <p className="text-GrisLabel text-[12px] mb-1">Categoria</p>
               <select
                 required
-                defaultValue={"Entretenimiento"}
+                value={category}
                 className="w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]"
               >
                 <option>Comida</option>
@@ -132,9 +148,22 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
             </div>
             <div className="flex items-center justify-center gap-5 flex-col mt-[40px]">
               <Button value={"Editar"} type="contained" />
-              <Button value={"Eliminar"} />
             </div>
           </form>
+          <div className="flex items-center justify-center mt-5">
+
+            <Button onClick={() => handleDelete()} value={"Eliminar"} />
+          </div>
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={isLoading}
+
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          <SuccesfullModal closeModal={confirmDelete.closeModal} text={'Se ha eliminado una deuda correctamente'} isOpen={confirmDelete.isOpen} />
+
+
         </div>
       </Modal>
     </div>
