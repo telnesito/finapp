@@ -7,6 +7,7 @@ import Button from "./Button";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { eliminarDeuda } from "../firebase/firestore/deleteDeuda";
 import SuccesfullModal from "./SuccesfullModal";
+import { actualizarDeudas } from "../firebase/firestore/updateDeudas";
 
 const CardDebts = ({ title, description, date, total, category, id, completada }) => {
   const { closeModal, isOpen, openModal } = useModal();
@@ -16,6 +17,18 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
   // To do: Pasar a constantes en otro archivo
   const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
+  const [deuda, setDeuda] = useState({
+    fecha: date,
+    monto: total,
+    titulo: title,
+    categoria: category,
+    descripcion: description,
+    completada: completada
+  })
+
+  const handleGetText = (name, value) => {
+    setDeuda({ ...deuda, [name]: value });
+  };
 
   const handleDelete = async () => {
     setIsLoading(true)
@@ -29,6 +42,17 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
       console.log(error)
     }
 
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    try {
+      const res = await actualizarDeudas(id, deuda)
+      setIsLoading(false)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -97,29 +121,34 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
               Detalle de <b>deuda</b>
             </p>
           </Box>
-          <form>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <TextField
               label={"Fecha"}
-              defaultValue={fecha}
+              defaultValue={deuda.fecha}
               type="date"
+              onChange={(value) => handleGetText('fecha', value)}
             />
-            <TextField label={"Importe"} defaultValue={total} type="number" />
+            <TextField onChange={(value) => handleGetText('monto', value)} label={"Importe"}
+              defaultValue={deuda.monto} type="number" />
             <TextField
+              onChange={(value) => handleGetText('titulo', value)}
               label={"Titulo"}
-              defaultValue={title}
+              defaultValue={deuda.titulo}
               type="text"
             />
             <TextField
+              onChange={(value) => handleGetText('descripcion', value)}
               label={"Descripcion"}
-              defaultValue={description}
+              defaultValue={deuda.descripcion}
               type="text"
             />
 
             <div>
               <p className="text-GrisLabel text-[12px] mb-1">Categoria</p>
               <select
+                onChange={({ target }) => handleGetText('categoria', target.value)}
                 required
-                value={category}
+                value={deuda.categoria}
                 className="w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]"
               >
                 <option>Comida</option>
@@ -135,17 +164,15 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
               </select>
             </div>
 
-            <div>
-              <p className="text-GrisLabel text-[12px] mb-1">Cuenta</p>
-              <select
-                required
-                className="w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]"
-              >
-                <option>Cuenta bancaria</option>
-                <option>Efectivo</option>
-                <option>Tarjeta de credito</option>
-              </select>
+
+            <div className='flex gap-2 mt-4  items-center w-full max-w-[700px]'>
+              <input checked={deuda.completada} onChange={
+                ({ target }) => {
+                  handleGetText('completada', target.checked)
+                }} id='check' name='check' type='checkbox'></input>
+              <label className='text-azulMarino font-medium text-[14px]' htmlFor='check'>Esta deuda ha sido completada </label>
             </div>
+
             <div className="flex items-center justify-center gap-5 flex-col mt-[40px]">
               <Button value={"Editar"} type="contained" />
             </div>

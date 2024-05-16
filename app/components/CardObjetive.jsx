@@ -159,6 +159,8 @@ const CardObjetive = ({ title, description, date, total, current, state, categor
             <TextField onChange={(value) => handleGetText('saldoActual', value)} defaultValue={objetivo.saldoActual} label={'Saldo actual'} min={0} type='number'></TextField>
 
 
+
+
             <div>
               <p className="text-GrisLabel text-[12px] mb-1">Categoria</p>
               <select

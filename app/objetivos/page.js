@@ -20,9 +20,9 @@ import { useRouter } from 'next/navigation'
 
 const Page = () => {
   const { isOpen, openModal, isClosing, closeModal } = useModal()
-  const modalConfirmacion = useModal()
   const [userData, setUserData] = useState(obtenerUsuario())
   const [optionModal, setOptionModal] = useState(0)
+  const modalConfirmacion = useModal()
   const [isLoading, setIsLoading] = useState(false)
   const [objetivos, setObjetivos] = useState([])
 

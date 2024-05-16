@@ -22,6 +22,7 @@ import SkeletonLoad from '../components/Skeleton'
 import { useUser } from '../customHooks/UserContext'
 import { obtenerTransacciones } from '../firebase/firestore/getTransaction'
 import { obtenerObjetivos } from '../firebase/firestore/getObjetives'
+import { obtenerDeudas } from '../firebase/firestore/getDeudas'
 const Page = () => {
 
 
@@ -32,6 +33,7 @@ const Page = () => {
 
   const { userProfile, setUserProfile } = useUser()
   const [transacciones, setTransacciones] = useState([])
+  const [deudas, setDeudas] = useState([])
   const router = useRouter()
 
 
@@ -47,7 +49,11 @@ const Page = () => {
         setObjetivos(objetivosData);
       });
 
-      // Cleanup subscription on unmount
+      const deudas = obtenerDeudas(userData.uid, (deudaData) => {
+        setDeudas(deudaData);
+
+        // Cleanup subscription on unmount
+      })
     }
     const profile = async () => {
       const userFromFireStore = await getUserProfile(userData?.uid)
@@ -150,9 +156,13 @@ const Page = () => {
 
           </div>
           <Transacciones>
-            <CardDebts description={'Subscripcion mensual'} title={'Spotify Sub.'} total={'-7.00'} date={'11 Oct 2021'} />
-            <CardDebts description={'Mensualidad Cantv'} completada={true} title={'Internet.'} total={'50.00'} date={'25 Mayo 2024'} />
+            {deudas
+              .slice(0, 5)
+              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+              .map(({ descripcion, titulo, monto, fecha, categoria, id, completada }) =>
 
+                <CardDebts key={id} description={descripcion} total={monto} id={id} completada={completada} title={titulo} category={categoria} date={fecha} />
+              )}
           </Transacciones>
 
         </div>
