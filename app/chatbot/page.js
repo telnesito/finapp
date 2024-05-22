@@ -68,16 +68,38 @@ const Chatbot = () => {
     fetchUserData();
   }, [router, setUserProfile]);
 
-
+  // titulo: '',
+  // descripcion: '',
+  // monto: '',
+  // completada: false,
+  // categoria: 'Tarjeta de credito',
+  // fecha: ''
   useEffect(() => {
 
     const formatTransacciones = (transacciones) => {
       return transacciones.map((transaccion, index) => {
         return `Transacción ${index + 1}:
+        - Titulo: ${transaccion.titulo}
+
           - Descripción: ${transaccion.descripcion}
           - Monto: ${transaccion.importe}
           - Fecha: ${transaccion.fecha}
           - Categoria: ${transaccion.categoria}
+        `;
+      }).join("\n");
+    };
+
+    const formatDeudas = (deudas) => {
+      return deudas.map((deuda, index) => {
+        return `Transacción ${index + 1}:
+          - Descripción: ${deuda.descripcion}
+          - Titulo: ${deuda.titulo}
+
+          - Monto: ${deuda.monto}
+          - Fecha: ${deuda.fecha}
+          - Categoria: ${deuda.categoria}
+          - Estado: (Si es true, la deuda esta pagada, si es false, la deuda aun no esta pagada) ${deuda.completada}
+
         `;
       }).join("\n");
     };
@@ -89,11 +111,7 @@ const Chatbot = () => {
         const model = genAI.getGenerativeModel({
           model: "gemini-1.5-pro-latest",
           systemInstruction: `Eres un asistente financiero, te llamas finet y tienes que responder solo a preguntas en el área de las finanzas.
-
-          Funcionas en un entorno WEB, dentro de una aplicacion llamada FINAPP, finapp es una agenda financiera que permite a los usuarios organizar sus gastos, ingresos, deudas y objetivos. Tienes prohibido recomendar cualquier otra aplicacion que no sea FINAPP.
-
-          Recuerda que tu principal funcionalidad es ser un asistente financiero, no utilices palabras tecnicas de la programacion
-          
+          Tienes prohibido recomendar cualquier otra aplicacion que no sea FINAPP.
           quiero que tus respuestas sean en formato HTML, usa las etiquetas necesarias segun la respuesta, quiero le des prioridad a ciertas palabras y las hagas diferenciar con diferentes etiquetas, todas las etiquetas deben tener algun estilo con estilos en linea, tienes totalmente prohibido enviar alguna respuesta que pueda romper la interfaz o la aplicacion, tampoco puedes usar etiquetas como <html/> y <script/>.
 
           Las principales preguntas a las que responderás serán sobre las finanzas personales del usuario, eso incluye
@@ -102,7 +120,8 @@ const Chatbot = () => {
           Aquí tienes el balance actual del usuario ${userProfile.balance_general},
           Aquí tienes el nombre del usuario ${userData.displayName},
           aquí tienes el email del usuario ${userData.email},
-          Aqui tienes las ultima transaccion del usuario ${formatTransacciones(transacciones)}
+          Aqui tienes las ultima transaccion del usuario ${formatTransacciones(transacciones)},
+          Aqui tienes sus ultimas deudas ${formatDeudas(deudas)}
           `
         });
 
