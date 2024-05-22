@@ -65,7 +65,7 @@ const Page = () => {
             <TextField defaultValue={credenciales.email} onChange={(value) => handleGetText('email', value)} type='email' label={'Correo electronico'} />
             <TextField defaultValue={credenciales.password} onChange={(value) => handleGetText('password', value)} type='password' label={'Contraseña'} />
 
-            <p className='text-Gris text-right w-full text-[12px] '>Contraseña olvidada?</p>
+            {/* <p className='text-Gris text-right w-full text-[12px] '>Contraseña olvidada?</p> */}
           </div>
 
           <div className='flex flex-col md:flex-row gap-[15px]'>

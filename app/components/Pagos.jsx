@@ -88,7 +88,7 @@ const Pagos = () => {
       </div>
       <p className='text-GrisLabel text-[12px]'>Descripcion</p>
       <textarea required value={newPago.descripcion}
-        onChange={({ target }) => handleGetText('descripcion', target.value)} className='w-full focus:bg-white  placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]' placeholder='Descripcion' cols={'20'} rows={'4'} />
+        onChange={({ target }) => handleGetText('descripcion', target.value)} className='w-full focus:bg-white  placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]' placeholder='Descripcion' cols={'20'} rows={'2'} />
 
       <div className='mt-4 flex items-center w-full justify-center'>
         <Button value={'Guardar'} type='contained' />

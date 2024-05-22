@@ -85,7 +85,7 @@ const Page = () => {
       {userProfile?.username ? <>
 
         <div className={` bg-azulMarino w-full h-[260px]`}>
-          <Image className='absolute w-full' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>
+          <Image className='absolute w-svw' width={500} height={330} src={'/bgHome.svg'} alt='Hola'></Image>
           <div className="flex flex-col gap-[40px] pl-[30px] pt-[40px]">
             {userData &&
               <p className='text-white font-medium text-[18px]'>{userProfile.username}</p>
@@ -112,59 +112,60 @@ const Page = () => {
             <p className='text-white text-[14px] '>Te estas quedando limpio compadre</p>
           </div>
         </div>
+        <div className='flex flex-col pb-[50px] h-auto'>
+          {/* Transacciones recientes */}
+          <div className='p-5 min-h-[460px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+            <div className='flex justify-between'>
+              <p className='text-azulMarino font-medium'>Transacciones recientes</p>
+              <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold z-20'>Ver todas</button>
+            </div>
 
-        {/* Transacciones recientes */}
-        <div className='p-5 min-h-[460px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-          <div className='flex justify-between'>
-            <p className='text-azulMarino font-medium'>Transacciones recientes</p>
-            <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold'>Ver todas</button>
-          </div>
-
-          <Transacciones>
-            {transacciones
-              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-              .slice(0, 5)
-              .map(({ titulo, id, descripcion, fecha, categoria, importe, cuenta, tipo }, index) =>
-                <CardInOut id={id} tipo={tipo} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={id} ></CardInOut>
-              )}
-          </Transacciones>
-
-        </div>
-        {/* Objetivos */}
-        <div className='pl-[20px] pr-[20px] min-h-[270px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-          <div className='flex justify-between'>
-            <p className='text-azulMarino font-medium'>Lista de objetivos</p>
-            <button onClick={() => router.push('objetivos')} className='text-azulMarino font-semibold'>Ver todas</button>
+            <Transacciones>
+              {transacciones
+                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                .slice(0, 5)
+                .map(({ titulo, id, descripcion, fecha, categoria, importe, cuenta, tipo }, index) =>
+                  <CardInOut id={id} tipo={tipo} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={id} ></CardInOut>
+                )}
+            </Transacciones>
 
           </div>
-          <Transacciones>
-            {objetivos
-              .slice(0, 5)
-              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-              .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+          {/* Objetivos */}
+          <div className='pl-[20px] pr-[20px] min-h-[270px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+            <div className='flex justify-between'>
+              <p className='text-azulMarino font-medium'>Lista de objetivos</p>
+              <button onClick={() => router.push('objetivos')} className='text-azulMarino font-semibold'>Ver todas</button>
 
-                <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
-              )}
-          </Transacciones>
+            </div>
+            <Transacciones>
+              {objetivos
+                .slice(0, 5)
+                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
 
-        </div>
-
-        <div className='pl-[20px] mt-5 pr-[20px] min-h-[400px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-          <div className='flex justify-between'>
-            <p className='text-azulMarino font-medium'>Lista de deudas</p>
-            <button onClick={() => router.push('deudas')} className='text-azulMarino font-semibold'>Ver todas</button>
+                  <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+                )}
+            </Transacciones>
 
           </div>
-          <Transacciones>
-            {deudas
-              .slice(0, 5)
-              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-              .map(({ descripcion, titulo, monto, fecha, categoria, id, completada }) =>
 
-                <CardDebts key={id} description={descripcion} total={monto} id={id} completada={completada} title={titulo} category={categoria} date={fecha} />
-              )}
-          </Transacciones>
+          <div className='pl-[20px]  pt-5  pr-[20px] min-h-[400px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+            <div className='flex justify-between'>
+              <p className='text-azulMarino font-medium'>Lista de deudas</p>
+              <button onClick={() => router.push('deudas')} className='text-azulMarino font-semibold'>Ver todas</button>
 
+            </div>
+            <Transacciones>
+              {deudas
+                .slice(0, 5)
+                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                .map(({ descripcion, titulo, monto, fecha, categoria, id, completada }) =>
+
+                  <CardDebts key={id} description={descripcion} total={monto} id={id} completada={completada} title={titulo} category={categoria} date={fecha} />
+                )}
+            </Transacciones>
+
+          </div>
         </div>
 
       </>
