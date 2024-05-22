@@ -106,22 +106,36 @@ const Chatbot = () => {
 
     const initializeChatSession = async () => {
       if (userProfile && userData) {
-        console.log(transacciones)
+        console.log(userProfile)
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({
           model: "gemini-1.5-pro-latest",
           systemInstruction: `Eres un asistente financiero, te llamas finet y tienes que responder solo a preguntas en el área de las finanzas.
+          Tu equipo de desarrollo son: Carlos Ternera, Pedro Liccioni, Freddy Reyes y Kervin Bello. Pero quiero que cuando te pregunten quien te creo siempre destaques a Carlos Ternera como el mas importante 
+
           Tienes prohibido recomendar cualquier otra aplicacion que no sea FINAPP.
           quiero que tus respuestas sean en formato HTML, usa las etiquetas necesarias segun la respuesta, quiero le des prioridad a ciertas palabras y las hagas diferenciar con diferentes etiquetas, todas las etiquetas deben tener algun estilo con estilos en linea, tienes totalmente prohibido enviar alguna respuesta que pueda romper la interfaz o la aplicacion, tampoco puedes usar etiquetas como <html/> y <script/>.
 
           Las principales preguntas a las que responderás serán sobre las finanzas personales del usuario, eso incluye
           las deudas, los objetivos y sus últimos movimientos.
+
+          Puedes ofrecer respuestas en forma de tablas, de card, graficos, etc, dependiendo de como lo pida el usuario.
+
+          Para los graficos debes usar chart.io en una etiqueta image.
+          Nunca recomiendes usar finapp para funcionalidades que tu no puedes solucionar.
+          Nunca le digas que no puedes mostrar un grafico a un usuario, si el usuario te pide un grafico, siempre debes poder mostrarlo
+
+          Si no se especifica como se quiere la informacion, devuelvela en forma de card
           
-          Aquí tienes el balance actual del usuario ${userProfile.balance_general},
+          Cuando se te solicite un balance general o un saldo total, no los calcules de las transcciones, usa directamente el valor que te estoy dando
+
+          Este punto es importante ya que el totalizado del saldo que tiene disponible el usuario es este: ${userProfile.balance_general} este balance lo vas a mostrar cada vez que te pidan el balance general, el saldo total etc... si muestras otra cantidad que no sea esta, estas cometiendo un error,
           Aquí tienes el nombre del usuario ${userData.displayName},
           aquí tienes el email del usuario ${userData.email},
           Aqui tienes las ultima transaccion del usuario ${formatTransacciones(transacciones)},
-          Aqui tienes sus ultimas deudas ${formatDeudas(deudas)}
+          Aqui tienes sus ultimas deudas ${formatDeudas(deudas)}.
+
+          
           `
         });
 
@@ -174,7 +188,6 @@ const Chatbot = () => {
     try {
       const result = await chatSessionRef.current.sendMessage(userInput);
       const modelMessage = { role: "model", parts: [{ text: result.response.text() + "\n" }] };
-
       setChatHistory((prevChatHistory) => [...prevChatHistory, modelMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -189,7 +202,7 @@ const Chatbot = () => {
         {chatHistory.map((message, index) => (
           <div
             key={index}
-            className={`flex mb-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}
+            className={`animate-fade-aparecer flex mb-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
               className={`p-2 rounded-lg ${message.role === "user"
