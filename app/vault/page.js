@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -20,63 +20,65 @@ import Modal from '../components/Modal';
 import TextField from '../components/TextField';
 import Button from '../components/Button';
 import BackPage from '../components/BackPage';
+import { agregarCuenta } from '../firebase/firestore/addVault';
+import { obtenerUsuario } from '../firebase/auth/currentSesion';
+import { obtenerBoveda } from '../firebase/firestore/getVault';
+import { eliminarCuenta } from '../firebase/firestore/deleteVault';
 
 const Page = () => {
   const { isOpen, openModal, isClosing, closeModal } = useModal();
   //router que creo que no se usa pero ahí estaba
   const router = useRouter();
-  
+  const [accToDelete, setAccToDelete] = useState("")
+  const [userData, setUserData] = useState(obtenerUsuario())
+  const [cuentas, setCuentas] = useState({})
   // Estados para los valores del formulario
-  const [usuario, setUsuario] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [contrasena, setContrasena] = useState('');
-  const [confirmar, setConfirmar] = useState('');
 
+  const [vault, setVault] = useState({
+    usuario: '',
+    email: '',
+    clave: '',
+    plataforma: ''
+  })
   // UseModal para los estados de los modales
   const openDetalles = useModal();
   const openEdicion = useModal();
   const openEliminar = useModal();
 
-  // Funciones para actualizar los estados ó escribir en los formularios
-  const handleUsuario = (value) => {
-    setUsuario(value);
-  };
-
-  const handleCorreo = (value) => {
-    setCorreo(value);
-  };
-
-  const handleContrasena = (value) => {
-    setContrasena(value);
-  };
-
-  const handleConfirmar = (value) => {
-    setConfirmar(value);
+  const handleGetText = (name, value) => {
+    setVault({ ...vault, [name]: value });
   };
 
 
+  console.log(cuentas)
   // Función para eliminar usuario
-const eliminarFila = () => {
-  if (usuarios.length > 0) {
-    const usuariosActualizados = usuarios.slice(0, -1); 
-    setUsuarios(usuariosActualizados);
-  }
-  openEliminar.closeModal();
-};
+  const eliminarFila = async (id) => {
+
+    try {
+      const res = await eliminarCuenta(id)
+      openEliminar.closeModal();
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   // Almacenar informacion de los usuarios
   const [usuarios, setUsuarios] = useState([]);
-  
+
   // Guardar la información de los usuarios
-  const handleGuardar = (event) => {
+  const handleGuardar = async (event) => {
     event.preventDefault();
-    const nuevoUsuario = {
-      usuario,
-      correo,
-      contrasena
-    };
-    setUsuarios([...usuarios, nuevoUsuario]);
-    closeModal();
+
+    try {
+      const response = await agregarCuenta(vault)
+      console.log(response)
+      closeModal();
+
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   // Estado para almacenar información en el modal de detalles
@@ -90,23 +92,38 @@ const eliminarFila = () => {
   };
 
 
-// Guardar la información editada del usuario seleccionado no funciona no se por que
-const handleGuardarEdicion = (event) => {
-  event.preventDefault();
-  const usuarioEditado = {
-    usuario,
-    correo,
-    contrasena
+
+
+  // Guardar la información editada del usuario seleccionado no funciona no se por que
+  const handleGuardarEdicion = (event) => {
+    event.preventDefault();
+    const usuarioEditado = {
+      usuario,
+      correo,
+      contrasena
+    };
+
+    // Buscar el usuario seleccionado en la lista de usuario
+    const usuariosActualizados = usuarios.map(user =>
+      user === usuarioSeleccionado ? usuarioEditado : user
+    );
+
+    setUsuarios(usuariosActualizados);
+    openEdicion.closeModal();
   };
 
-  // Buscar el usuario seleccionado en la lista de usuario
-  const usuariosActualizados = usuarios.map(user =>
-    user === usuarioSeleccionado ? usuarioEditado : user
-  );
 
-  setUsuarios(usuariosActualizados);
-  openEdicion.closeModal();
-};
+  useEffect(() => {
+    if (!userData) {
+      router.push('/login');
+    } else {
+      const unsub = obtenerBoveda(userData.uid, (cuentas) => {
+        setCuentas(cuentas);
+      });
+    }
+
+
+  }, [userData])
 
   return (
     <Box p={'20px 20px'}>
@@ -117,19 +134,22 @@ const handleGuardarEdicion = (event) => {
           <TableHead>
             <TableRow>
               <TableCell align="left">Usuario</TableCell>
-              <TableCell align="left">Email</TableCell>
+              <TableCell align="left">Plataforma</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {usuarios.map((user, index) => (
+
+            {cuentas.length > 0 && cuentas.map((user, index) => (
               <TableRow key={index}>
                 <TableCell align="left">{user.usuario}</TableCell>
-                <TableCell align="left">{user.correo}</TableCell>
+                <TableCell align="left">{user.plataforma}</TableCell>
                 <TableCell align="center">
                   <RemoveRedEyeIcon onClick={() => abrirDetalles(user)} />
-                  <EditIcon onClick={openEdicion.openModal}/>
-                  <DeleteIcon onClick={openEliminar.openModal} />
+                  <DeleteIcon onClick={() => {
+                    setAccToDelete(user.id)
+                    openEliminar.openModal()
+                  }} />
                 </TableCell>
               </TableRow>
             ))}
@@ -175,17 +195,18 @@ const handleGuardarEdicion = (event) => {
             <KeyboardArrowLeftIcon />
             <p className='text-azulMarino text-[18px] font-medium '>Agregar cuenta</p>
           </Box>
-          <TextField type='text' label={'Nombre de usuario'} defaultValue={usuario} onChange = { (value)=> handleUsuario(value)} />
-          <TextField type='email' label={'Correo electronico'} defaultValue={correo} onChange= { (value)=> handleCorreo(value)} />
-          <TextField type='password' label={'Contraseña'} defaultValue={contrasena} onChange= { (value)=> handleContrasena(value)}  />
-          <TextField type='password' label={'Confirmar contraseña'} defaultValue={confirmar}  onChange= { (value)=> handleConfirmar(value)} />
+          <TextField type='text' label={'Nombre de usuario'} defaultValue={vault.usuario} onChange={(value) => handleGetText('usuario', value)} />
+          <TextField type='text' label={'Plataforma'} defaultValue={vault.plataforma} onChange={(value) => handleGetText('plataforma', value)} />
+          <TextField type='email' label={'Correo electronico'} defaultValue={vault.email} onChange={(value) => handleGetText('email', value)} />
+          <TextField type='password' label={'Contraseña'} defaultValue={vault.clave} onChange={(value) => handleGetText('clave', value)} />
+
 
           <div className='flex items-center justify-center mt-6'>
             <Button value={'Guardar'} type='contained' />
           </div>
         </form>
       </Modal>
-      
+
       {/* Modal Detalles */}
       <Modal isOpen={openDetalles.isOpen} isClosing={openDetalles.isClosing} closeModal={openDetalles.closeModal}>
         <form onSubmit={() => console.log('Submiteado')} className='flex flex-col gap-3 '>
@@ -201,80 +222,36 @@ const handleGuardarEdicion = (event) => {
             <KeyboardArrowLeftIcon />
             <p className='text-azulMarino text-[18px] font-medium '>Detalles de la cuenta</p>
           </Box>
-          <TextField 
-            type='text' 
-            label={'Nombre de usuario'} 
-            defaultValue={usuarioSeleccionado ? usuarioSeleccionado.usuario : ''} 
-            readOnly 
-          />
-          <TextField 
-            type='email' 
-            label={'Correo electronico'} 
-            defaultValue={usuarioSeleccionado ? usuarioSeleccionado.correo : ''} 
-            readOnly 
-          />
-
-          <TextField type='text' 
-          label={'Contraseña'} 
-          defaultValue={usuarioSeleccionado ? usuarioSeleccionado.contrasena : ''} 
-          readOnly   />
-
-          <div className='flex items-center justify-center mt-6'>
-          <Button onClick={(e) => {
-            e.preventDefault(); // Evitar el comportamiento predeterminado
-            e.stopPropagation(); // Detener la propagación del evento
-            openDetalles.closeModal();
-          }} value={'Cerrar'} type='contained' />
-          </div>
-        </form>
-      </Modal>
-
-      {/* Modal Edicion */}
-      <Modal isOpen={openEdicion.isOpen} isClosing={openEdicion.isClosing} closeModal={openEdicion.closeModal}>
-        <form onSubmit={handleGuardarEdicion} className='flex flex-col gap-3 '>
-          <Box
-            display={'flex'}
-            component={'button'}
-            onClick={() => openEdicion.closeModal()}
-            flexDirection={'row'}
-            marginBottom={'20px'}
-            alignItems={'center'}
-            gap={'10px'}
-          >
-            <KeyboardArrowLeftIcon />
-            <p className='text-azulMarino text-[18px] font-medium '>Editar información</p>
-          </Box>
           <TextField
             type='text'
             label={'Nombre de usuario'}
-            defaultValue={usuario}
-            onChange={(value) => handleUsuario(value)}
+            defaultValue={usuarioSeleccionado ? usuarioSeleccionado.usuario : ''}
+            readOnly
           />
           <TextField
             type='email'
             label={'Correo electronico'}
-            defaultValue={correo}
-            onChange={(value) => handleCorreo(value)}
-          />
-          <TextField
-            type='password'
-            label={'Nueva contraseña'}
-            defaultValue={contrasena}
-            onChange={(value) => handleContrasena(value)}
-          />
-          <TextField
-            type='password'
-            label={'Confirmar nueva contraseña'}
-            defaultValue={confirmar}
-            onChange={(value) => handleConfirmar(value)}
+            defaultValue={usuarioSeleccionado ? usuarioSeleccionado.email : ''}
+            readOnly
           />
 
-          <div className='flex items-center justify-center mt-6'>
-            <Button value={'Guardar'} type='contained' />
-          </div>
+          <TextField type='text'
+            label={'Contraseña'}
+            defaultValue={usuarioSeleccionado ? usuarioSeleccionado.clave : ''}
+            readOnly />
+
+          <TextField type='text'
+            label={'Plataforma'}
+            defaultValue={usuarioSeleccionado ? usuarioSeleccionado.plataforma : ''}
+            readOnly />
+
         </form>
+        <div className='flex items-center justify-center mt-6'>
+          <Button onClick={(e) => {
+            openDetalles.closeModal();
+          }} value={'Cerrar'} type='contained' />
+        </div>
       </Modal>
-
 
 
       {/* Modal Eliminar */}
@@ -295,7 +272,7 @@ const handleGuardarEdicion = (event) => {
           <p className='text-azulMarino text-[18px] font-medium'>¿Seguro que deseas eliminar la información?</p>
         </Box>
         <div className='flex items-center justify-center mt-6'>
-          <Button onClick={eliminarFila} value={'Eliminar'} type='contained' />
+          <Button onClick={() => eliminarFila(accToDelete)} value={'Eliminar'} type='contained' />
         </div>
       </Modal>
     </Box>
