@@ -29,9 +29,9 @@ const Page = () => {
   const { isOpen, openModal, closeModal, isClosing } = useModal()
   const [optionModal, setOptionModal] = useState(0)
   const [userData, setUserData] = useState(obtenerUsuario())
-  const [objetivos, setObjetivos] = useState([])
 
   const { userProfile, setUserProfile } = useUser()
+  const [objetivos, setObjetivos] = useState([])
   const [transacciones, setTransacciones] = useState([])
   const [deudas, setDeudas] = useState([])
   const router = useRouter()

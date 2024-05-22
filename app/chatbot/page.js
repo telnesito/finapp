@@ -1,61 +1,214 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect, useRef } from "react";
+import parse from 'html-react-parser';
 
-import { useChat } from "ai/react";
+import {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} from "@google/generative-ai";
+import { obtenerDeudas } from "../firebase/firestore/getDeudas";
+import { obtenerObjetivos } from "../firebase/firestore/getObjetives";
+import { obtenerTransacciones } from "../firebase/firestore/getTransaction";
+import { obtenerUsuario } from "../firebase/auth/currentSesion";
+import { useUser } from "../customHooks/UserContext";
+import { getUserProfile } from "../firebase/firestore/getProfileFromDb";
+import { useRouter } from "next/navigation";
 
-const Page = () => {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat(); // Ruta corregida
+const Chatbot = () => {
+  const [userInput, setUserInput] = useState("");
+  const [userData, setUserData] = useState(null);
+  const { userProfile, setUserProfile } = useUser();
+  const [objetivos, setObjetivos] = useState([]);
+  const [transacciones, setTransacciones] = useState([]);
+  const [deudas, setDeudas] = useState([]);
+  const [chatHistory, setChatHistory] = useState([
+    { role: "user", parts: [{ text: "Hola Finet, necesito que me asistas en mis solicitudes financieras\n" }] },
+    {
+      role: "model",
+      parts: [
+        { text: "Claro, ¿en qué te puedo asistir hoy? 😊 \n" },
+      ],
+    },
+  ]);
+  const [loading, setLoading] = useState(false);
+
+  const apiKey = "AIzaSyD3clbXIoxJ0U34wfs7nr5D61RFSckDOiQ"; // Coloca tu API Key aquí
+  const chatSessionRef = useRef(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = await obtenerUsuario();
+      if (!user) {
+        router.push('/login');
+      } else {
+        setUserData(user);
+
+        obtenerTransacciones(user.uid, (transaccionesData) => {
+          setTransacciones(transaccionesData);
+        });
+
+
+
+        obtenerObjetivos(user.uid, (objetivosData) => {
+          setObjetivos(objetivosData);
+        });
+
+        obtenerDeudas(user.uid, (deudaData) => {
+          setDeudas(deudaData);
+        });
+
+        const userProfileFromFirestore = await getUserProfile(user.uid);
+        setUserProfile(userProfileFromFirestore);
+      }
+    };
+
+    fetchUserData();
+  }, [router, setUserProfile]);
+
+
+  useEffect(() => {
+
+    const formatTransacciones = (transacciones) => {
+      return transacciones.map((transaccion, index) => {
+        return `Transacción ${index + 1}:
+          - Descripción: ${transaccion.descripcion}
+          - Monto: ${transaccion.importe}
+          - Fecha: ${transaccion.fecha}
+          - Categoria: ${transaccion.categoria}
+        `;
+      }).join("\n");
+    };
+
+    const initializeChatSession = async () => {
+      if (userProfile && userData) {
+        console.log(transacciones)
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({
+          model: "gemini-1.5-pro-latest",
+          systemInstruction: `Eres un asistente financiero, te llamas finet y tienes que responder solo a preguntas en el área de las finanzas.
+          
+          quiero que tus respuestas sean en formato HTML, usa las etiquetas necesarias segun la respuesta, quiero le des prioridad a ciertas palabras y las hagas diferenciar con diferentes etiquetas, todas las etiquetas deben tener algun estilo con estilos en linea, tienes totalmente prohibido enviar alguna respuesta que pueda romper la interfaz o la aplicacion.
+
+          Las principales preguntas a las que responderás serán sobre las finanzas personales del usuario, eso incluye
+          las deudas, los objetivos y sus últimos movimientos.
+          
+          Aquí tienes el balance actual del usuario ${userProfile.balance_general},
+          Aquí tienes el nombre del usuario ${userData.displayName},
+          aquí tienes el email del usuario ${userData.email},
+          Aqui tienes las ultima transaccion del usuario ${formatTransacciones(transacciones)}
+          `
+        });
+
+        const generationConfig = {
+          temperature: 1,
+          topP: 0.95,
+          topK: 64,
+          maxOutputTokens: 8192,
+          responseMimeType: "text/plain",
+        };
+
+        const safetySettings = [
+          {
+            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+        ];
+
+        chatSessionRef.current = model.startChat({
+          generationConfig,
+          safetySettings,
+          history: chatHistory,
+        });
+      }
+    };
+
+    initializeChatSession();
+  }, [userProfile, userData, chatHistory]); // Dependencia en userProfile y userData
+
+  const sendMessage = async () => {
+    if (!chatSessionRef.current) return;
+
+    const userMessage = { role: "user", parts: [{ text: userInput + "\n" }] };
+    setChatHistory((prevChatHistory) => [...prevChatHistory, userMessage]);
+    setUserInput("");
+    setLoading(true);
+
+    try {
+      const result = await chatSessionRef.current.sendMessage(userInput);
+      const modelMessage = { role: "model", parts: [{ text: result.response.text() + "\n" }] };
+
+      setChatHistory((prevChatHistory) => [...prevChatHistory, modelMessage]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+
+    setLoading(false);
+  };
 
   return (
-    <div className='p-5 min-h-[760px] bg-[#F9FAFC]'>
-      <div className='flex flex-col animate-fade-aparecer bg-[#F9FAFC]' style={{ minHeight: '100vh', paddingBottom: '80px' }}>
-        <p className='text-azulMarino text-[18px] font-medium mb-'>Chatbot</p>
-        <div className='h-[1px] mt-[5px] mb-[5px] bg-gray-100'></div>
-
-        <form onSubmit={handleSubmit} className="max-w-xl w-full">
-          <div className="text-white max-h-96 h-full overflow-y-auto">
-            {messages.map((m) => (
-              <div
-                key={m.id}
-                className={`flex flex-col mb-2 p-2 rounded-md ${m.role === "assistant"
-                  ? "self-end bg-gray-800"
-                  : "self-start bg-blue-700"
-                  }`}
-              >
-                <span
-                  className={`text-xs ${m.role === "assistant" ? "text-right" : "text-left"
-                    }`}
-                >
-                  {m.role}
-                </span>{" "}
-                {m.content}
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-between my-4">
-            <label className="text-white block font-bold my-2">
-              Say something...
-            </label>
-            <button
-              className="bg-blue-600 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50"
-              disabled={isLoading || !input}
+    <div className="flex flex-col h-screen bg-gray-100 p-4">
+      <div className="flex-grow overflow-y-auto mb-4">
+        {chatHistory.map((message, index) => (
+          <div
+            key={index}
+            className={`flex mb-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}
+          >
+            <div
+              className={`p-2 rounded-lg ${message.role === "user"
+                ? "bg-azulMarino text-white"
+                : "bg-gray-200 text-gray-800"}`}
             >
-              Send
-            </button>
+              {parse(message.parts[0].text)}
+              {console.log(message.parts[0].text)}
+            </div>
           </div>
-          <textarea
-            rows={4}
-            value={input}
-            onChange={handleInputChange}
-            className="text-black bg-slate-300 px-3 py-2 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-            placeholder="Type something..."
-            autoFocus
-          />
-        </form>
+        ))}
+        {loading && (
+          <div className="flex justify-start mb-4">
+            <div className="p-2 rounded-lg bg-gray-200 text-gray-800">
+              Escribiendo...
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="flex mb-[70px]">
+        <textarea
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              sendMessage();
+            }
+          }}
+          className="flex-grow p-2 border rounded-l-lg"
+          placeholder="Escribe tu mensaje..."
+        />
+        <button
+          onClick={sendMessage}
+          className="p-2 bg-azulMarino text-white rounded-r-lg"
+        >
+          Enviar
+        </button>
       </div>
     </div>
   );
 };
 
-export default Page;
+export default Chatbot;
