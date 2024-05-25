@@ -46,15 +46,15 @@ const Page = () => {
             {transacciones
               .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
               .map(({ titulo, id, descripcion, tipo, fecha, categoria, importe, cuenta }, index) =>
-                <CardInOut tipo={tipo} id={id} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+                <CardInOut tipo={tipo} id={id} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={id} ></CardInOut>
               )}
           </Transacciones>
             : optionModal === 1 ? <Transacciones >
               {transacciones
                 .filter(({ tipo }) => tipo === 1)
                 .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                .map(({ titulo, tipo, id, descripcion, fecha, categoria, importe, cuenta }, index) =>
-                  <CardInOut tipo={tipo} id={id} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+                .map(({ titulo, tipo, id, descripcion, fecha, categoria, importe, cuenta, }, index) =>
+                  <CardInOut tipo={tipo} id={id} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={id} ></CardInOut>
                 )}
             </Transacciones>
               : <Transacciones>
@@ -62,7 +62,7 @@ const Page = () => {
                   .filter(({ tipo }) => tipo === 2)
                   .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
                   .map(({ titulo, descripcion, fecha, categoria, id, tipo, importe, cuenta }, index) =>
-                    <CardInOut account={cuenta} tipo={tipo} id={id} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={index} ></CardInOut>
+                    <CardInOut account={cuenta} tipo={tipo} id={id} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={id} ></CardInOut>
                   )}
               </Transacciones>}
         </div>

@@ -8,6 +8,8 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { eliminarDeuda } from "../firebase/firestore/deleteDeuda";
 import SuccesfullModal from "./SuccesfullModal";
 import { actualizarDeudas } from "../firebase/firestore/updateDeudas";
+import DynamicIcon from "./DynamicIcon";
+import { formatearNumero } from "../utils/formatearNumeros";
 
 const CardDebts = ({ title, description, date, total, category, id, completada }) => {
   const { closeModal, isOpen, openModal } = useModal();
@@ -59,15 +61,7 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
     <div className="p-[10px]" onClick={() => openModal()}>
       <div className="flex justify-between">
         <div className="flex h-[55px]  gap-[15px] ">
-          <div className="flex items-center justify-center rounded bg-[#F2F2F2] w-[40px] h-[40px]">
-            <Image
-              width={15}
-              height={20}
-              alt="uparrow"
-              src={"/songicon.svg"}
-            ></Image>
-          </div>
-
+          <DynamicIcon cat={category} />
           <div>
             <p className="text-[16px] text-azulMarino font-medium">
               {title.slice(0, 25)}
@@ -81,14 +75,14 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
           {completada ? (
             <>
               <strike className={`text-black text-[16px] text-right`}>
-                {total > 0 ? total + "$" : total + "$"}
+                {total > 0 ? formatearNumero(total) + "$" : formatearNumero(total) + "$"}
               </strike>
               <p className="text-gray-300 text-[12px] text-right">{fecha.getDate() + " " + meses[fecha.getMonth()] + " " + fecha.getFullYear()}</p>
             </>
           ) : (
             <>
               <p className={`text-red-400 text-[16px] text-right`}>
-                {total > 0 ? total + "$" : total + "$"}
+                {total > 0 ? formatearNumero(total) + "$" : formatearNumero(total) + "$"}
               </p>
               <p className="text-gray-300 text-[12px] text-right">{fecha.getDate() + " " + meses[fecha.getMonth()] + " " + fecha.getFullYear()}</p>
             </>

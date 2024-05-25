@@ -9,7 +9,9 @@ import { actualizarTransaccion } from '../firebase/firestore/updateTransaction'
 import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
 import { obtenerUsuario } from '../firebase/auth/currentSesion'
 import { eliminarTransaccion } from '../firebase/firestore/deleteTransaction'
-
+import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
+import DynamicIcon from './DynamicIcon'
+import { formatearNumero } from '../utils/formatearNumeros'
 const CardInOut = ({ title, description, amounth, category, date, account, tipo, id }) => {
 
   const { isOpen, openModal, closeModal } = useModal()
@@ -79,14 +81,7 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
     <div className={"p-[10px]"} onClick={() => openModal()}>
       <div className="flex justify-between">
         <div className="flex h-[55px] gap-[15px] ">
-          <div className="flex items-center justify-center rounded bg-[#F2F2F2] w-[40px] h-[40px]">
-            <Image
-              width={15}
-              height={20}
-              alt="uparrow"
-              src={"/songicon.svg"}
-            ></Image>
-          </div>
+          <DynamicIcon cat={category} />
           <div>
             <p className="text-[16px] text-azulMarino font-medium">{title}</p>
             <p className="text-gray-300 text-[12px]">{description}</p>
@@ -94,9 +89,9 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
         </div>
         <div>
           {amounth > 0 ? (
-            <p className="text-green-600 text-[16px] text-right">+{amounth}$</p>
+            <p className="text-green-600 text-[16px] text-right">+{formatearNumero(amounth)}$</p>
           ) : (
-            <p className="text-red-400 text-[16px] text-right">{amounth}$</p>
+            <p className="text-red-400 text-[16px] text-right">{formatearNumero(amounth)}$</p>
           )}
           <p className="text-gray-300 text-[12px] text-right">
             {fecha.getDate() +

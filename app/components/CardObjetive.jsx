@@ -7,6 +7,7 @@ import Button from "./Button";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { eliminarObjetivo } from "../firebase/firestore/deleteObjetive";
 import { actualizarObjetive } from "../firebase/firestore/updateObjetive";
+import DynamicIcon from "./DynamicIcon";
 
 const CardObjetive = ({ title, description, date, total, current, state, category, id, percentaje }) => {
   // Calcular el porcentaje de progreso
@@ -69,14 +70,8 @@ const CardObjetive = ({ title, description, date, total, current, state, categor
     <div className={"p-[10px]"} onClick={() => openModal()}>
       <div className="flex justify-between">
         <div className="flex h-[55px]  gap-[15px] ">
-          <div className="flex items-center justify-center rounded bg-[#F2F2F2] w-[40px] h-[40px]">
-            <Image
-              width={15}
-              height={20}
-              alt="uparrow"
-              src={"/songicon.svg"}
-            ></Image>
-          </div>
+          <DynamicIcon cat={category} />
+
 
           <div>
             {/* Título y descripción de la deuda */}
