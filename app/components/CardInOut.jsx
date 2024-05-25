@@ -133,7 +133,7 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
           </Box>
           <form onSubmit={(e) => handleUpdate(e)}>
             <TextField onChange={(value) => handleGetText('fecha', value)} label={'Fecha'} defaultValue={updatedFields.fecha} type='date' />
-            <TextField label={'Importe'} onChange={(value) => handleGetText('importe', value)} defaultValue={updatedFields.importe} type='number' />
+            <TextField label={'Importe ($)'} onChange={(value) => handleGetText('importe', value)} defaultValue={updatedFields.importe} type='number' />
             <TextField onChange={(value) => handleGetText('titulo', value)} defaultValue={updatedFields.titulo} label={'Titulo'} type='text' />
             <TextField label={'Descripcion'} onChange={(value) => handleGetText('descripcion', value)} defaultValue={updatedFields.descripcion} type='text' />
 

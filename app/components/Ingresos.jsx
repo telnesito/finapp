@@ -10,6 +10,7 @@ import { Backdrop, CircularProgress } from '@mui/material'
 import { obtenerUsuario } from '../firebase/auth/currentSesion'
 import { useUser } from '../customHooks/UserContext'
 import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
+import { formatearNumero } from '../utils/formatearNumeros'
 
 const Ingresos = () => {
   const { userProfile, setUserProfile } = useUser()
@@ -62,7 +63,7 @@ const Ingresos = () => {
       <TextField defaultValue={newIngreso.fecha}
         onChange={(value) => handleGetText('fecha', value)} label={'Fecha'} type='date' />
 
-      <TextField defaultValue={newIngreso.importe} min={0} onChange={(value) => handleGetText('importe', value)} label={'Importe'} type='number' />
+      <TextField defaultValue={formatearNumero(newIngreso.importe)} min={0} onChange={(value) => handleGetText('importe', value)} label={'Importe ($)'} type='number' />
       <TextField defaultValue={newIngreso.titulo} onChange={(value) => handleGetText('titulo', value)} label={'Titulo'} type='text' />
 
       <div>

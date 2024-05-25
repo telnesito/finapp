@@ -59,7 +59,7 @@ const Pagos = () => {
   return (
     <form onSubmit={(e) => handleSubmitPago(e)} className='animate-fade-aparecer mt-[15px] flex flex-col gap-2 '>
       <TextField onChange={(value) => handleGetText('fecha', value)} defaultValue={newPago.fecha} label={'Fecha'} type='date' />
-      <TextField max={0} onChange={(value) => handleGetText('importe', value)} defaultValue={newPago.importe} label={'Importe'} type='number' />
+      <TextField max={0} onChange={(value) => handleGetText('importe', value)} defaultValue={newPago.importe} label={'Importe ($)'} type='number' />
       <TextField onChange={(value) => handleGetText('titulo', value)} defaultValue={newPago.titulo} label={'Titulo'} type='text' />
       <div>
 

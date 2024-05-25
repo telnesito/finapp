@@ -86,7 +86,7 @@ const Page = () => {
 
   return (
     <div className='bg-[#F9FAFC] pl-[20px] pt-[20px] pr-[20px]'>
-      <Box padding={'15px 15px'} onClick={() => openModal()} component={'button'} position={'fixed'} bottom={'100px'} right={'20px'} display={'flex'} justifyContent={'center'} alignItems={'center'} width={'60px'} height={'60px'} borderRadius={'100%'} bgcolor={'#100D40'}>
+      <Box zIndex={999} padding={'15px 15px'} onClick={() => openModal()} component={'button'} position={'fixed'} bottom={'100px'} right={'20px'} display={'flex'} justifyContent={'center'} alignItems={'center'} width={'60px'} height={'60px'} borderRadius={'100%'} bgcolor={'#100D40'}>
         <AddIcon sx={{
           color: 'white',
           fontSize: '30px'

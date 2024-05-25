@@ -151,7 +151,7 @@ const CardObjetive = ({ title, description, date, total, current, state, categor
 
             <TextField min={0} onChange={(value) => handleGetText('meta', value)} defaultValue={objetivo.meta} label={'Total objetivo'} type='number'></TextField>
 
-            <TextField onChange={(value) => handleGetText('saldoActual', value)} defaultValue={objetivo.saldoActual} label={'Saldo actual'} min={0} type='number'></TextField>
+            <TextField onChange={(value) => handleGetText('saldoActual', value)} defaultValue={objetivo.saldoActual} label={'Saldo actual ($)'} min={0} type='number'></TextField>
 
 
 

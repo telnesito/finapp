@@ -122,7 +122,7 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
               type="date"
               onChange={(value) => handleGetText('fecha', value)}
             />
-            <TextField onChange={(value) => handleGetText('monto', value)} label={"Importe"}
+            <TextField onChange={(value) => handleGetText('monto', value)} label={"Importe ($)"}
               defaultValue={deuda.monto} type="number" />
             <TextField
               onChange={(value) => handleGetText('titulo', value)}
