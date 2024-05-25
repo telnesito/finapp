@@ -160,7 +160,10 @@ const CardObjetive = ({ title, description, date, total, current, state, categor
               <p className="text-GrisLabel text-[12px] mb-1">Categoria</p>
               <select
                 required
-                defaultValue={"Entretenimiento"}
+                value={objetivo.categoria}
+
+                onChange={({ target }) => handleGetText('categoria', target.value)}
+
                 className="w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]"
               >
                 <option>Comida</option>
