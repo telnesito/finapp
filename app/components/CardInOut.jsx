@@ -83,8 +83,8 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
         <div className="flex h-[55px] gap-[15px] ">
           <DynamicIcon cat={category} />
           <div>
-            <p className="text-[16px] text-azulMarino font-medium">{title}</p>
-            <p className="text-gray-300 text-[12px]">{description}</p>
+            <p className="text-[16px] text-azulMarino font-medium">{title.slice(0, 20)}</p>
+            <p className="text-gray-300 text-[12px]">{description.slice(0, 20)}...</p>
           </div>
         </div>
         <div>

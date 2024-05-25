@@ -67,7 +67,7 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
               {title.slice(0, 25)}
             </p>
             <p className="text-gray-300 text-[12px]">
-              {description.slice(0, 25)}
+              {description.slice(0, 25)}...
             </p>
           </div>
         </div>
