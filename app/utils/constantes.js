@@ -83,7 +83,7 @@ export const NAVBAR = [
   },
 ]
 
-export const TRANS_OPCIONES = ['Ingresos', 'Pagos', 'Transf']
+export const TRANS_OPCIONES = ['Ingresos', 'Pagos']
 
 export const ICONS = [
   {
