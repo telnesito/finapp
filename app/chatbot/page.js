@@ -156,6 +156,8 @@ const Chatbot = () => {
           responseMimeType: "text/plain",
         };
 
+
+
         const safetySettings = [
           {
             category: HarmCategory.HARM_CATEGORY_HARASSMENT,

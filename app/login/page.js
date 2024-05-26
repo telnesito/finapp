@@ -26,6 +26,7 @@ const Page = () => {
     e.preventDefault()
     setIsLoading(true)
     const res = await iniciarSesion(credenciales.email, credenciales.password)
+    console.log(res)
 
     if (res.uid) router.push('/home')
     else {

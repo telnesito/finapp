@@ -4,6 +4,8 @@ import "./globals.css";
 export const metadata = {
   title: "Finapp",
   description: "Finapp - tu asistente financiero a la mano",
+  manifest: "/manifest.json",
+
 };
 
 export default function RootLayout({ children }) {

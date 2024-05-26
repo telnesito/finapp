@@ -36,7 +36,6 @@ const Page = () => {
   const [deudas, setDeudas] = useState([])
   const router = useRouter()
 
-
   useEffect(() => {
     if (!userData) {
       router.push('/login');
