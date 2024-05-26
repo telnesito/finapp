@@ -63,7 +63,7 @@ const Ingresos = () => {
       <TextField defaultValue={newIngreso.fecha}
         onChange={(value) => handleGetText('fecha', value)} label={'Fecha'} type='date' />
 
-      <TextField defaultValue={formatearNumero(newIngreso.importe)} min={0} onChange={(value) => handleGetText('importe', value)} label={'Importe ($)'} type='number' />
+      <TextField defaultValue={newIngreso.importe} min={0} onChange={(value) => handleGetText('importe', value)} label={'Importe ($)'} type='number' />
       <TextField defaultValue={newIngreso.titulo} onChange={(value) => handleGetText('titulo', value)} label={'Titulo'} type='text' />
 
       <div>
