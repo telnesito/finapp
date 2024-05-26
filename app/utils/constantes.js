@@ -25,7 +25,11 @@ import CheckroomOutlinedIcon from '@mui/icons-material/CheckroomOutlined';
 import BlenderOutlinedIcon from '@mui/icons-material/BlenderOutlined';
 import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
-
+import WaterDropOutlinedIcon from '@mui/icons-material/WaterDropOutlined';
+import CompassCalibrationOutlinedIcon from '@mui/icons-material/CompassCalibrationOutlined';
+import SmartDisplayOutlinedIcon from '@mui/icons-material/SmartDisplayOutlined';
+import TungstenOutlinedIcon from '@mui/icons-material/TungstenOutlined';
+import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 export const onBoarding =
   [
     {
@@ -142,6 +146,34 @@ export const ICONS = [
   {
     categoria: 'Mantenimiento del hogar',
     icon: BlenderOutlinedIcon
+  },
+
+
+  {
+    categoria: 'Agua',
+    icon: WaterDropOutlinedIcon
+  },
+
+
+  {
+    categoria: 'Internet',
+    icon: CompassCalibrationOutlinedIcon
+  },
+
+
+  {
+    categoria: 'Servicios de streaming',
+    icon: SmartDisplayOutlinedIcon
+  },
+
+  {
+    categoria: 'Electricidad',
+    icon: TungstenOutlinedIcon
+  },
+
+  {
+    categoria: 'Tarjeta de credito',
+    icon: CreditCardOutlinedIcon
   },
 
 ]

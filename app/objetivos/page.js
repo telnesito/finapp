@@ -17,6 +17,7 @@ import SuccesfullModal from '../components/SuccesfullModal'
 import { obtenerUsuario } from '../firebase/auth/currentSesion'
 import { obtenerObjetivos } from '../firebase/firestore/getObjetives'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const Page = () => {
   const { isOpen, openModal, isClosing, closeModal } = useModal()
@@ -86,7 +87,7 @@ const Page = () => {
 
   return (
     <div className='bg-[#F9FAFC] pl-[20px] pt-[20px] pr-[20px]'>
-      <Box zIndex={999} padding={'15px 15px'} onClick={() => openModal()} component={'button'} position={'fixed'} bottom={'100px'} right={'20px'} display={'flex'} justifyContent={'center'} alignItems={'center'} width={'60px'} height={'60px'} borderRadius={'100%'} bgcolor={'#100D40'}>
+      <Box zIndex={1} padding={'15px 15px'} onClick={() => openModal()} component={'button'} position={'fixed'} bottom={'100px'} right={'20px'} display={'flex'} justifyContent={'center'} alignItems={'center'} width={'60px'} height={'60px'} borderRadius={'100%'} bgcolor={'#100D40'}>
         <AddIcon sx={{
           color: 'white',
           fontSize: '30px'
@@ -98,19 +99,18 @@ const Page = () => {
           {['Todas', 'Completados', 'En progreso'].map((value, index) => <ButtonTabs indexTab={optionModal}
             onClick={() => setOptionModal(index)} isActive={index === optionModal} key={index} text={value} />)}
         </Tabs>
-        <div className='mt-4'>
-          {optionModal === 0 ? <Transacciones>
-            {objetivos
-              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-              .map(({ descripcion, titulo, saldoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
 
-                <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={saldoActual} percentaje={porcentaje} date={fecha} />
-              )}
 
-          </Transacciones>
-            : optionModal === 1 ? <Transacciones>
+        {objetivos.length === 0 ? <div className='flex flex-col items-center justify-center mt-[50px] p-[20px]'>
+          <Image alt='Mano con cartel marcando un error' width={300} height={300} src={'Error.svg'} />
+
+          <p className='text-center text-azulMarino text-[20px] font-semibold '>Aun no has registrado ningun objetivo en FINAPP todavia. Click en el icono "+" para empezar.</p>
+
+        </div>
+          :
+          <div className='mt-4'>
+            {optionModal === 0 ? <Transacciones>
               {objetivos
-                .filter(({ porcentaje }) => porcentaje === 100)
                 .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
                 .map(({ descripcion, titulo, saldoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
 
@@ -118,17 +118,29 @@ const Page = () => {
                 )}
 
             </Transacciones>
-              : <Transacciones>
+              : optionModal === 1 ? <Transacciones>
                 {objetivos
-                  .filter(({ porcentaje }) => porcentaje !== 100)
+                  .filter(({ porcentaje }) => porcentaje === 100)
                   .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
                   .map(({ descripcion, titulo, saldoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
 
                     <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={saldoActual} percentaje={porcentaje} date={fecha} />
                   )}
+
               </Transacciones>
-          }
-        </div>
+                : <Transacciones>
+                  {objetivos
+                    .filter(({ porcentaje }) => porcentaje !== 100)
+                    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                    .map(({ descripcion, titulo, saldoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+
+                      <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={saldoActual} percentaje={porcentaje} date={fecha} />
+                    )}
+                </Transacciones>
+            }
+          </div>
+        }
+
 
         <Modal isOpen={isOpen} isClosing={isClosing} closeModal={closeModal} >
 

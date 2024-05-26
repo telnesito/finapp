@@ -145,15 +145,11 @@ const CardDebts = ({ title, description, date, total, category, id, completada }
                 value={deuda.categoria}
                 className="w-full focus:bg-white h-[48px] placeholder:font-light p-[10px] text-NegroInputs outline-1 outline-Gris rounded bg-[#F7F7F7]"
               >
-                <option>Comida</option>
-                <option>Entretenimiento</option>
-                <option>Transporte</option>
-                <option>Cultura</option>
-                <option>Regalos</option>
-                <option>Educacion</option>
-                <option>Ropa</option>
-                <option>Mantenimiento del hogar</option>
-                <option>Productos de belleza</option>
+                <option >Tarjeta de credito</option>
+                <option>Servicios de streaming</option>
+                <option>Internet</option>
+                <option>Agua</option>
+                <option>Electricidad</option>
                 <option>Otro</option>
               </select>
             </div>

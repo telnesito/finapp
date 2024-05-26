@@ -114,61 +114,77 @@ const Page = () => {
             <p className='text-white text-[14px] '>Te estas quedando limpio compadre</p>
           </div>
         </div>
-        <div className='flex flex-col pb-[50px] h-auto'>
-          {/* Transacciones recientes */}
-          <div className='p-5 min-h-[460px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-            <div className='flex justify-between'>
-              <p className='text-azulMarino font-medium'>Transacciones recientes</p>
-              <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold z-20'>Ver todas</button>
-            </div>
+        {transacciones.length === 0 && deudas.length === 0 && objetivos.length === 0 ? <div className='flex flex-col items-center justify-center mt-[50px] p-[20px]'>
+          <Image alt='Mano con cartel marcando un error' width={300} height={300} src={'Error.svg'} />
 
-            <Transacciones>
-              {transacciones
-                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                .slice(0, 5)
-                .map(({ titulo, id, descripcion, fecha, categoria, importe, cuenta, tipo }, index) =>
-                  <CardInOut id={id} tipo={tipo} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={id} ></CardInOut>
-                )}
-            </Transacciones>
+          <p className='text-center text-azulMarino text-[20px] font-semibold '>Aun no has registrado ningun movimiento en FINAPP. Click en el icono "+" para empezar.</p>
 
+        </div> :
+          <div className='flex flex-col pb-[50px] h-auto'>
+
+            {transacciones.length > 0 &&
+
+              <div className='p-5 min-h-[460px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+                <div className='flex justify-between'>
+                  <p className='text-azulMarino font-medium'>Transacciones recientes</p>
+                  <button onClick={() => router.push('historial')} className='text-azulMarino font-semibold z-20'>Ver todas</button>
+                </div>
+
+                <Transacciones>
+                  {transacciones
+                    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                    .slice(0, 5)
+                    .map(({ titulo, id, descripcion, fecha, categoria, importe, cuenta, tipo }, index) =>
+                      <CardInOut id={id} tipo={tipo} account={cuenta} title={titulo} description={descripcion} date={fecha} amounth={importe} category={categoria} key={id} ></CardInOut>
+                    )}
+                </Transacciones>
+              </div>
+            }
+            {/* Objetivos */}
+
+            {objetivos.length > 0 &&
+              <div className='pl-[20px] pr-[20px] pt-5 min-h-[270px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+                <div className='flex justify-between'>
+                  <p className='text-azulMarino font-medium'>Lista de objetivos</p>
+                  <button onClick={() => router.push('objetivos')} className='text-azulMarino font-semibold'>Ver todas</button>
+
+                </div>
+                <Transacciones>
+                  {objetivos
+                    .slice(0, 5)
+                    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                    .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
+
+                      <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
+                    )}
+                </Transacciones>
+
+              </div>
+
+            }
+
+            {deudas.length > 0 &&
+
+              <div className='pl-[20px]  pt-5  pr-[20px] pb-[40px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
+                <div className='flex justify-between'>
+                  <p className='text-azulMarino font-medium'>Lista de deudas</p>
+                  <button onClick={() => router.push('deudas')} className='text-azulMarino font-semibold'>Ver todas</button>
+
+                </div>
+                <Transacciones>
+                  {deudas
+                    .slice(0, 5)
+                    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                    .map(({ descripcion, titulo, monto, fecha, categoria, id, completada }) =>
+
+                      <CardDebts key={id} description={descripcion} total={monto} id={id} completada={completada} title={titulo} category={categoria} date={fecha} />
+                    )}
+                </Transacciones>
+
+              </div>
+            }
           </div>
-          {/* Objetivos */}
-          <div className='pl-[20px] pr-[20px] min-h-[270px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-            <div className='flex justify-between'>
-              <p className='text-azulMarino font-medium'>Lista de objetivos</p>
-              <button onClick={() => router.push('objetivos')} className='text-azulMarino font-semibold'>Ver todas</button>
-
-            </div>
-            <Transacciones>
-              {objetivos
-                .slice(0, 5)
-                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                .map(({ descripcion, titulo, montoActual, meta, fecha, categoria, id, estado, porcentaje }) =>
-
-                  <CardObjetive key={id} description={descripcion} total={meta} id={id} state={estado} title={titulo} category={categoria} current={montoActual} percentaje={porcentaje} date={fecha} />
-                )}
-            </Transacciones>
-
-          </div>
-
-          <div className='pl-[20px]  pt-5  pr-[20px] min-h-[400px] flex flex-col animate-fade-aparecer bg-[#F9FAFC]'>
-            <div className='flex justify-between'>
-              <p className='text-azulMarino font-medium'>Lista de deudas</p>
-              <button onClick={() => router.push('deudas')} className='text-azulMarino font-semibold'>Ver todas</button>
-
-            </div>
-            <Transacciones>
-              {deudas
-                .slice(0, 5)
-                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                .map(({ descripcion, titulo, monto, fecha, categoria, id, completada }) =>
-
-                  <CardDebts key={id} description={descripcion} total={monto} id={id} completada={completada} title={titulo} category={categoria} date={fecha} />
-                )}
-            </Transacciones>
-
-          </div>
-        </div>
+        }
 
       </>
         :
