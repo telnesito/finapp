@@ -117,7 +117,7 @@ const Page = () => {
         {transacciones.length === 0 && deudas.length === 0 && objetivos.length === 0 ? <div className='flex flex-col items-center justify-center mt-[50px] p-[20px]'>
           <Image alt='Mano con cartel marcando un error' width={300} height={300} src={'Error.svg'} />
 
-          <p className='text-center text-azulMarino text-[20px] font-semibold '>Aun no has registrado ningun movimiento en FINAPP. Click en el icono "+" para empezar.</p>
+          <p className='text-center text-azulMarino text-[20px] font-semibold '>Aun no has registrado ningun movimiento en FINAPP. Click en el icono + para empezar.</p>
 
         </div> :
           <div className='flex flex-col pb-[50px] h-auto'>

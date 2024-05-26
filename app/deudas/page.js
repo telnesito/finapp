@@ -89,7 +89,7 @@ const Page = () => {
         {deudas.length === 0 ? <div className='flex flex-col items-center justify-center mt-[50px] p-[20px]'>
           <Image alt='Mano con cartel marcando un error' width={300} height={300} src={'Error.svg'} />
 
-          <p className='text-center text-azulMarino text-[20px] font-semibold '>Aun no has registrado ninguna deuda en FINAPP todavia. Click en el icono "+" para empezar.</p>
+          <p className='text-center text-azulMarino text-[20px] font-semibold '>Aun no has registrado ninguna deuda en FINAPP todavia. Click en el icono + para empezar.</p>
 
         </div> :
 
