@@ -14,7 +14,7 @@ const useModal = () => {
     setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
-    }, 400);
+    }, 0);
   };
 
   return {

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Transacciones from '../components/Transacciones'
-import Modal from '../components/Modal'
 import useModal from '../customHooks/useModa'
 import ButtonTabs from '../components/ButtonTabs'
 import Tabs from '../components/Tabs'
@@ -23,6 +22,7 @@ import { useUser } from '../customHooks/UserContext'
 import { obtenerTransacciones } from '../firebase/firestore/getTransaction'
 import { obtenerObjetivos } from '../firebase/firestore/getObjetives'
 import { obtenerDeudas } from '../firebase/firestore/getDeudas'
+import { Modal } from '@mui/material'
 const Page = () => {
 
 
@@ -66,21 +66,23 @@ const Page = () => {
   console.log(transacciones)
   return (
     <div className={`bg-[#F9FAFC] ${isOpen ? 'overflow-hidden' : ''} h-screen`}>
-      <Modal closeModal={closeModal} isClosing={isClosing} isOpen={isOpen}>
-        <button onClick={closeModal} className='flex items-center gap-2 mb-3'>
-          <AiOutlineArrowLeft />
-          <p>
-            {
-              optionModal === 0 ? 'Ingresos' : optionModal === 1 ? 'Pagos' : 'Transferencias'
-            }</p>
-        </button>
-        <Tabs>
-          {TRANS_OPCIONES.map((value, index) => <ButtonTabs indexTab={optionModal}
-            onClick={() => setOptionModal(index)} isActive={index === optionModal} key={index} text={value} />)}
-        </Tabs>
-        {optionModal === 0 ? <Ingresos />
-          : optionModal === 1 ? <Pagos />
-            : <Transferencias />}
+      <Modal open={isOpen} onClose={closeModal} className='flex items-center justify-center'>
+        <div className='bg-white p-[20px] rounded-lg overflow-scroll w-11/12 h-5/6'>
+          <button onClick={closeModal} className='flex items-center gap-2 mb-3'>
+            <AiOutlineArrowLeft />
+            <p>
+              {
+                optionModal === 0 ? 'Ingresos' : optionModal === 1 ? 'Pagos' : 'Transferencias'
+              }</p>
+          </button>
+          <Tabs>
+            {TRANS_OPCIONES.map((value, index) => <ButtonTabs indexTab={optionModal}
+              onClick={() => setOptionModal(index)} isActive={index === optionModal} key={index} text={value} />)}
+          </Tabs>
+          {optionModal === 0 ? <Ingresos />
+            : optionModal === 1 ? <Pagos />
+              : <Transferencias />}
+        </div>
       </Modal>
       {userProfile?.username ? <>
 

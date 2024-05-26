@@ -6,10 +6,7 @@ import TextField from './TextField'
 import Button from './Button'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { actualizarTransaccion } from '../firebase/firestore/updateTransaction'
-import { getUserProfile } from '../firebase/firestore/getProfileFromDb'
-import { obtenerUsuario } from '../firebase/auth/currentSesion'
 import { eliminarTransaccion } from '../firebase/firestore/deleteTransaction'
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import DynamicIcon from './DynamicIcon'
 import { formatearNumero } from '../utils/formatearNumeros'
 const CardInOut = ({ title, description, amounth, category, date, account, tipo, id }) => {
@@ -113,6 +110,7 @@ const CardInOut = ({ title, description, amounth, category, date, account, tipo,
         }}
         open={isOpen}
         onClose={closeModal}
+
       >
         <div className="p-[20px] rounded-lg overflow-scroll w-11/12 h-5/6 bg-white">
           <Box
