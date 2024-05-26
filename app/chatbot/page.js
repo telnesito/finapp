@@ -68,12 +68,6 @@ const Chatbot = () => {
     fetchUserData();
   }, [router, setUserProfile]);
 
-  // titulo: '',
-  // descripcion: '',
-  // monto: '',
-  // completada: false,
-  // categoria: 'Tarjeta de credito',
-  // fecha: ''
   useEffect(() => {
 
     const formatTransacciones = (transacciones) => {
@@ -91,7 +85,7 @@ const Chatbot = () => {
 
     const formatDeudas = (deudas) => {
       return deudas.map((deuda, index) => {
-        return `Transacción ${index + 1}:
+        return `Deuda ${index + 1}:
           - Descripción: ${deuda.descripcion}
           - Titulo: ${deuda.titulo}
 
@@ -100,6 +94,19 @@ const Chatbot = () => {
           - Categoria: ${deuda.categoria}
           - Estado: (Si es true, la deuda esta pagada, si es false, la deuda aun no esta pagada) ${deuda.completada}
 
+        `;
+      }).join("\n");
+    };
+    const formatObjetivos = (objetivos) => {
+      return objetivos.map((objetivo, index) => {
+        return `Objetivo ${index + 1}:
+          - Descripción: ${objetivo.descripcion}
+          - Titulo: ${objetivo.titulo}
+          - porcentaje:  ${objetivo.porcentaje}, el porcentaje es en base a 100%, si es 100%, ya se completo el objetivo
+          -SaldoActual: ${objetivo.saldoActual}
+          -Meta: ${objetivo.meta}
+          - Fecha: ${objetivo.fecha}
+          - Categoria: ${objetivo.categoria}
         `;
       }).join("\n");
     };
@@ -114,7 +121,7 @@ const Chatbot = () => {
           Tu equipo de desarrollo son: Carlos Ternera, Pedro Liccioni, Freddy Reyes y Kervin Bello. Pero quiero que cuando te pregunten quien te creo siempre destaques a Carlos Ternera como el mas importante 
 
           Tienes prohibido recomendar cualquier otra aplicacion que no sea FINAPP.
-          quiero que tus respuestas sean en formato HTML, usa las etiquetas necesarias segun la respuesta, quiero le des prioridad a ciertas palabras y las hagas diferenciar con diferentes etiquetas, todas las etiquetas deben tener algun estilo con estilos en linea, tienes totalmente prohibido enviar alguna respuesta que pueda romper la interfaz o la aplicacion, tampoco puedes usar etiquetas como <html/> y <script/>.
+          quiero que tus respuestas sean en formato HTML, usa las etiquetas necesarias segun la respuesta, quiero le des prioridad a ciertas palabras y las hagas diferenciar con diferentes etiquetas, todas las etiquetas deben tener algun estilo con estilos en linea, tienes totalmente prohibido enviar alguna respuesta que pueda romper la interfaz o la aplicacion.
 
           Las principales preguntas a las que responderás serán sobre las finanzas personales del usuario, eso incluye
           las deudas, los objetivos y sus últimos movimientos.
@@ -123,9 +130,10 @@ const Chatbot = () => {
 
           Para los graficos debes usar chart.io en una etiqueta image.
           Nunca recomiendes usar finapp para funcionalidades que tu no puedes solucionar.
-          Nunca le digas que no puedes mostrar un grafico a un usuario, si el usuario te pide un grafico, siempre debes poder mostrarlo
+          Nunca le digas que no puedes mostrar un grafico a un usuario, si el usuario te pide un grafico, siempre debes poder mostrarlo.
 
-          Si no se especifica como se quiere la informacion, devuelvela en forma de card
+
+          Si no se especifica como se quiere la informacion, devuelvela en forma de card.
           
           Cuando se te solicite un balance general o un saldo total, no los calcules de las transcciones, usa directamente el valor que te estoy dando
 
@@ -134,6 +142,7 @@ const Chatbot = () => {
           aquí tienes el email del usuario ${userData.email},
           Aqui tienes las ultima transaccion del usuario ${formatTransacciones(transacciones)},
           Aqui tienes sus ultimas deudas ${formatDeudas(deudas)}.
+          Aqui tienes todos sus objetivos ${formatObjetivos(objetivos)}.
 
           
           `
